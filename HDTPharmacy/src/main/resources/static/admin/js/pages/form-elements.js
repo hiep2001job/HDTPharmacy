@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/assets/es6/pages/form-elements.js":
+/***/ "./app/admin/es6/pages/form-elements.js":
 /*!***********************************************!*\
-  !*** ./app/assets/es6/pages/form-elements.js ***!
+  !*** ./app/admin/es6/pages/form-elements.js ***!
   \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class FormElements {\r\n\r\n    static init() {\r\n        $('.select2').select2();\r\n        $('.datepicker-input').datepicker();\r\n\r\n        new Quill('#editor', {\r\n            theme: 'snow'\r\n        });\r\n    }\r\n}\r\n\r\n$(() => { FormElements.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/assets/es6/pages/form-elements.js?");
+eval("class FormElements {\r\n\r\n    static init() {\r\n        $('.select2').select2();\r\n        $('.datepicker-input').datepicker();\r\n\r\n        new Quill('#editor', {\r\n            theme: 'snow'\r\n        });\r\n    }\r\n}\r\n\r\n$(() => { FormElements.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/admin/es6/pages/form-elements.js?");
 
 /***/ }),
 
 /***/ 11:
 /*!*****************************************************!*\
-  !*** multi ./app/assets/es6/pages/form-elements.js ***!
+  !*** multi ./app/admin/es6/pages/form-elements.js ***!
   \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\form-elements.js */\"./app/assets/es6/pages/form-elements.js\");\n\n\n//# sourceURL=webpack:///multi_./app/assets/es6/pages/form-elements.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\form-elements.js */\"./app/admin/es6/pages/form-elements.js\");\n\n\n//# sourceURL=webpack:///multi_./app/admin/es6/pages/form-elements.js?");
 
 /***/ })
 

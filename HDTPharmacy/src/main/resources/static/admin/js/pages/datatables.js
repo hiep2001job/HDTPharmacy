@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/assets/es6/pages/datatables.js":
+/***/ "./app/admin/es6/pages/datatables.js":
 /*!********************************************!*\
-  !*** ./app/assets/es6/pages/datatables.js ***!
+  !*** ./app/admin/es6/pages/datatables.js ***!
   \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class TablesDataTable {\r\n\r\n    static init() {\r\n        $('#data-table').DataTable();\r\n    }\r\n}\r\n\r\n$(() => { TablesDataTable.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/assets/es6/pages/datatables.js?");
+eval("class TablesDataTable {\r\n\r\n    static init() {\r\n        $('#data-table').DataTable();\r\n    }\r\n}\r\n\r\n$(() => { TablesDataTable.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/admin/es6/pages/datatables.js?");
 
 /***/ }),
 
 /***/ 7:
 /*!**************************************************!*\
-  !*** multi ./app/assets/es6/pages/datatables.js ***!
+  !*** multi ./app/admin/es6/pages/datatables.js ***!
   \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\datatables.js */\"./app/assets/es6/pages/datatables.js\");\n\n\n//# sourceURL=webpack:///multi_./app/assets/es6/pages/datatables.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\datatables.js */\"./app/admin/es6/pages/datatables.js\");\n\n\n//# sourceURL=webpack:///multi_./app/admin/es6/pages/datatables.js?");
 
 /***/ })
 

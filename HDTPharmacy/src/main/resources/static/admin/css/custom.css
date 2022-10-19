@@ -1,0 +1,11 @@
+/* Validation */
+.is-invalid {
+	border-color: red;
+	color: red;
+}
+
+.is-invalid:focus {
+	outline: none;
+}
+
+/* Input image file */

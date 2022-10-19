@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/assets/es6/pages/pricing.js":
+/***/ "./app/admin/es6/pages/pricing.js":
 /*!*****************************************!*\
-  !*** ./app/assets/es6/pages/pricing.js ***!
+  !*** ./app/admin/es6/pages/pricing.js ***!
   \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class PagesPricing {\r\n\r\n    static init() {\r\n\r\n        $('#monthly-btn').on('click', (e) => {\r\n            $('#monthly-view').removeClass('d-none');\r\n            $('#annual-view').addClass('d-none')\r\n            $(e.currentTarget).addClass('active');\r\n            $('#annual-btn').removeClass('active');\r\n        })\r\n\r\n        $('#annual-btn').on('click', (e) => {\r\n            $('#annual-view').removeClass('d-none');\r\n            $('#monthly-view').addClass('d-none');\r\n            $(e.currentTarget).addClass('active');\r\n            $('#list-view-btn').removeClass('active');\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { PagesPricing.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/assets/es6/pages/pricing.js?");
+eval("class PagesPricing {\r\n\r\n    static init() {\r\n\r\n        $('#monthly-btn').on('click', (e) => {\r\n            $('#monthly-view').removeClass('d-none');\r\n            $('#annual-view').addClass('d-none')\r\n            $(e.currentTarget).addClass('active');\r\n            $('#annual-btn').removeClass('active');\r\n        })\r\n\r\n        $('#annual-btn').on('click', (e) => {\r\n            $('#annual-view').removeClass('d-none');\r\n            $('#monthly-view').addClass('d-none');\r\n            $(e.currentTarget).addClass('active');\r\n            $('#list-view-btn').removeClass('active');\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { PagesPricing.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/admin/es6/pages/pricing.js?");
 
 /***/ }),
 
 /***/ 15:
 /*!***********************************************!*\
-  !*** multi ./app/assets/es6/pages/pricing.js ***!
+  !*** multi ./app/admin/es6/pages/pricing.js ***!
   \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\pricing.js */\"./app/assets/es6/pages/pricing.js\");\n\n\n//# sourceURL=webpack:///multi_./app/assets/es6/pages/pricing.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\pricing.js */\"./app/admin/es6/pages/pricing.js\");\n\n\n//# sourceURL=webpack:///multi_./app/admin/es6/pages/pricing.js?");
 
 /***/ })
 

@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/assets/es6/pages/project-list.js":
+/***/ "./app/admin/es6/pages/project-list.js":
 /*!**********************************************!*\
-  !*** ./app/assets/es6/pages/project-list.js ***!
+  !*** ./app/admin/es6/pages/project-list.js ***!
   \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class ProjectList {\r\n\r\n    static init() {\r\n\r\n        $('#list-view-btn').on('click', (e) => {\r\n            $('#list-view').removeClass('d-none');\r\n            $('#card-view').addClass('d-none')\r\n            $(e.currentTarget).addClass('active');\r\n            $('#card-view-btn').removeClass('active');\r\n        })\r\n\r\n        $('#card-view-btn').on('click', (e) => {\r\n            $('#card-view').removeClass('d-none');\r\n            $('#list-view').addClass('d-none');\r\n            $(e.currentTarget).addClass('active');\r\n            $('#list-view-btn').removeClass('active');\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { ProjectList.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/assets/es6/pages/project-list.js?");
+eval("class ProjectList {\r\n\r\n    static init() {\r\n\r\n        $('#list-view-btn').on('click', (e) => {\r\n            $('#list-view').removeClass('d-none');\r\n            $('#card-view').addClass('d-none')\r\n            $(e.currentTarget).addClass('active');\r\n            $('#card-view-btn').removeClass('active');\r\n        })\r\n\r\n        $('#card-view-btn').on('click', (e) => {\r\n            $('#card-view').removeClass('d-none');\r\n            $('#list-view').addClass('d-none');\r\n            $(e.currentTarget).addClass('active');\r\n            $('#list-view-btn').removeClass('active');\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { ProjectList.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/admin/es6/pages/project-list.js?");
 
 /***/ }),
 
 /***/ 17:
 /*!****************************************************!*\
-  !*** multi ./app/assets/es6/pages/project-list.js ***!
+  !*** multi ./app/admin/es6/pages/project-list.js ***!
   \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\project-list.js */\"./app/assets/es6/pages/project-list.js\");\n\n\n//# sourceURL=webpack:///multi_./app/assets/es6/pages/project-list.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\project-list.js */\"./app/admin/es6/pages/project-list.js\");\n\n\n//# sourceURL=webpack:///multi_./app/admin/es6/pages/project-list.js?");
 
 /***/ })
 

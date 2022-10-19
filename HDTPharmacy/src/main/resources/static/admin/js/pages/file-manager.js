@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/assets/es6/pages/file-manager.js":
+/***/ "./app/admin/es6/pages/file-manager.js":
 /*!**********************************************!*\
-  !*** ./app/assets/es6/pages/file-manager.js ***!
+  !*** ./app/admin/es6/pages/file-manager.js ***!
   \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class FileManager {\r\n\r\n    static init() {\r\n\r\n        const hide = 'd-none'\r\n        const fileItems = '.file-manager-content-files .file';\r\n        const fileDetail = '.file-manager-content-details .content-details';\r\n        const fileContentDetails = '.file-manager-content-details'\r\n        const fileDetailNoData = '.file-manager-content-details .content-details-no-data';\r\n\r\n        function showFileDetails () {\r\n            $(fileDetailNoData).addClass(hide)\r\n            $(fileDetail).removeClass(hide)\r\n        }\r\n\r\n        function hideFileDetails () {\r\n            $(fileDetailNoData).removeClass(hide)\r\n            $(fileDetail).addClass(hide)\r\n        }\r\n\r\n        $(fileItems).on('click', (e) => {\r\n            showFileDetails()\r\n            $(fileItems).removeClass('active')\r\n            $(e.currentTarget).addClass('active')\r\n            $(fileContentDetails).addClass('details-open')\r\n        })\r\n\r\n        $('.unselect-bg').on('click', (e) => {\r\n            hideFileDetails()\r\n            $(fileItems).removeClass('active')\r\n        })\r\n\r\n        $('.content-details-close a').on('click', (e) => {\r\n            $(fileContentDetails).removeClass('details-open')\r\n        })\r\n\r\n        $('#open-manager-menu').on('click', (e) => {\r\n            $('.file-manager-nav').addClass('nav-open')\r\n            $(e.currentTarget).addClass(hide)\r\n            $('#close-manager-menu').removeClass(hide)\r\n        })\r\n\r\n        $('#close-manager-menu').on('click', (e) => {\r\n            $('.file-manager-nav').removeClass('nav-open')\r\n            $(e.currentTarget).addClass(hide)\r\n            $('#open-manager-menu').removeClass(hide)\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { FileManager.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/assets/es6/pages/file-manager.js?");
+eval("class FileManager {\r\n\r\n    static init() {\r\n\r\n        const hide = 'd-none'\r\n        const fileItems = '.file-manager-content-files .file';\r\n        const fileDetail = '.file-manager-content-details .content-details';\r\n        const fileContentDetails = '.file-manager-content-details'\r\n        const fileDetailNoData = '.file-manager-content-details .content-details-no-data';\r\n\r\n        function showFileDetails () {\r\n            $(fileDetailNoData).addClass(hide)\r\n            $(fileDetail).removeClass(hide)\r\n        }\r\n\r\n        function hideFileDetails () {\r\n            $(fileDetailNoData).removeClass(hide)\r\n            $(fileDetail).addClass(hide)\r\n        }\r\n\r\n        $(fileItems).on('click', (e) => {\r\n            showFileDetails()\r\n            $(fileItems).removeClass('active')\r\n            $(e.currentTarget).addClass('active')\r\n            $(fileContentDetails).addClass('details-open')\r\n        })\r\n\r\n        $('.unselect-bg').on('click', (e) => {\r\n            hideFileDetails()\r\n            $(fileItems).removeClass('active')\r\n        })\r\n\r\n        $('.content-details-close a').on('click', (e) => {\r\n            $(fileContentDetails).removeClass('details-open')\r\n        })\r\n\r\n        $('#open-manager-menu').on('click', (e) => {\r\n            $('.file-manager-nav').addClass('nav-open')\r\n            $(e.currentTarget).addClass(hide)\r\n            $('#close-manager-menu').removeClass(hide)\r\n        })\r\n\r\n        $('#close-manager-menu').on('click', (e) => {\r\n            $('.file-manager-nav').removeClass('nav-open')\r\n            $(e.currentTarget).addClass(hide)\r\n            $('#open-manager-menu').removeClass(hide)\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { FileManager.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/admin/es6/pages/file-manager.js?");
 
 /***/ }),
 
 /***/ 10:
 /*!****************************************************!*\
-  !*** multi ./app/assets/es6/pages/file-manager.js ***!
+  !*** multi ./app/admin/es6/pages/file-manager.js ***!
   \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\file-manager.js */\"./app/assets/es6/pages/file-manager.js\");\n\n\n//# sourceURL=webpack:///multi_./app/assets/es6/pages/file-manager.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\file-manager.js */\"./app/admin/es6/pages/file-manager.js\");\n\n\n//# sourceURL=webpack:///multi_./app/admin/es6/pages/file-manager.js?");
 
 /***/ })
 

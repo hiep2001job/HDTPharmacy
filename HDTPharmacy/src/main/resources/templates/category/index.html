@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="layouts/adminLayout.html">
+<head>
+<meta charset="ISO-8859-1">
+<title layout:fragment="title">Quản lý phân loại</title>
+<th:block layout:fragment="pageStyle">
+	<link
+		th:href="@{/admin/vendors/datatables/dataTables.bootstrap.min.css}"
+		rel="stylesheet" />
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+</th:block>
+</head>
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="page-header">
+			<h2 class="header-title">Quản lí phân loại</h2>
+			<div class="header-sub-title">
+				<nav class="breadcrumb breadcrumb-dash">
+					<a th:href="@{/manage/dashboard}" class="breadcrumb-item"> <i
+						class="anticon anticon-home m-r-5"></i>Quản lí
+					</a> <a class="breadcrumb-item" href="#">Phân loại</a>
+				</nav>
+			</div>
+		</div>
+		<div class="card">
+
+			<div class="card-body">
+				<div class="row m-b-30">
+					<div class="col-lg-8"></div>
+					<div class="col-lg-4 text-right">
+						<button type="button" class="btn btn-primary" data-toggle="modal"
+							data-target="#createCategoryModal">
+							<i class="anticon anticon-plus-circle m-r-5"></i> <span>Tạo
+								phân loại</span>
+						</button>
+					</div>
+				</div>
+
+				<div class="m-t-25">
+					<table id="data-table" class="table">
+						<thead>
+							<tr>
+								<th>Phân loại</th>
+								<th>Phân loại cha</th>
+								<th>Tùy chỉnh</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${categoryList}">
+								<td>[[${item.name}]]</td>
+								<td>[[${item.getParentName}]]</td>
+								<td class=""><a
+									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit">
+										<i class="anticon anticon-edit"></i>
+								</a> <a 
+								th:attr="data-label=${item.name}" 
+								th:value="${item.id}" data-toggle="modal"
+									data-target="#confirm-delete"
+									class="btn btn-icon btn-hover btn-sm btn-rounded"> <i
+										class="anticon anticon-delete"></i>
+								</a> <input id="id" th:value="${item.id}" hidden /></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Phân loại</th>
+								<th>Phân loại cha</th>
+								<th>Tùy chỉnh</th>
+							</tr>
+						</tfoot>
+					</table>
+					<nav th:replace="fragments/pagination_nav.html :: paginator"></nav>
+				</div>
+			</div>
+		</div>
+
+		<!--Create Category Modal -->
+		<div class="modal fade" id="createCategoryModal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Tạo phân
+							loại</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<i class="anticon anticon-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="createCategory" th:method="post"
+							th:action="@{/manage/category}">
+							<input hidden name="currentPage" th:value="${currentPage}" />
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Tên
+									phân loại:</label> <input type="text" name="name" class="form-control"
+									id="categoryName" placeholder="Phân loại">
+							</div>
+							<div class="form-group">
+								<label class="font-weight-semibold" for="productCategory">Phân
+									loại cha:</label> <select class="selectpicker" data-live-search="true"
+									id="parentCategory" name="parentCategory">
+									<option value="">Chọn phân loại cha</option>
+									<th:block th:each="cat : ${parents}">
+										<option th:value="${cat.id}">[[${cat.name}]]</option>
+									</th:block>
+									
+								</select>
+
+							</div>
+
+							<div class="form-group">
+								<label class="font-weight-semibold" for="productCategory">Level:</label>
+								<select class="custom-select" id="productCategory"
+									name="level">
+									<option
+										th:each="level : ${T(com.cp2196g03gr01.common.CategoryLevelEnum).values()}"
+										th:value="${level}">[[${level.getValue()}]]</option>
+								</select>
+							</div>
+
+
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+						<button type="submit" form="createCategory"
+							class="btn btn-primary">Lưu</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--Update Category Modal -->
+		<div class="modal fade" id="updateCategoryModal">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Chỉnh
+							sửa phân loại</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<i class="anticon anticon-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="updateCategory" th:method="POST"
+							th:action="@{/manage/category}">
+							<input type='hidden' name="id" id="id" /> <input hidden
+								name="currentPage" th:value="${currentPage}" />
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Tên
+									phân loại:</label> <input type="text" class="form-control"
+									id="categoryName" name="name" placeholder="Phân loại">
+							</div>
+							<div class="form-group">
+								<label class="font-weight-semibold" for="parent">Phân
+									loại cha:</label> <select class="custom-select" name="parentCategory"
+									id="parent">
+
+									<th:block th:each="cat : ${parents}">
+										<option th:value="${cat.id}">[[${cat.name}]]</option>
+									</th:block>
+
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label class="font-weight-semibold" for="productCategory">Level:</label>
+								<select class="custom-select" id="level" name="level">
+
+									<option
+										th:each="level : ${T(com.cp2196g03gr01.common.CategoryLevelEnum).values()}"
+										th:value="${level}">[[${level.getValue()}]]</option>
+								</select>
+							</div>
+
+
+						</form>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+						<button type="submit" form="updateCategory"
+							class="btn btn-primary">Lưu</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Confirm delete modal -->
+		<div class="modal fade" id="confirm-delete" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header" id="confirm-header">Xác nhận xóa </div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+						<a class="btn btn-danger btn-ok">Xóa</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<th:block layout:fragment="pageScript">
+		<script th:src="@{/admin/vendors/datatables/jquery.dataTables.min.js}"></script>
+
+		<script
+			th:src="@{/admin/vendors/datatables/dataTables.bootstrap.min.js}"></script>
+
+		<script type="text/javascript"
+			th:src="@{/admin/vendors/jquery-validation/jquery.validate.min.js}"></script>
+
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+		<script>
+			//Create form validation
+			$("#createCategory").validate({
+				ignore : ':hidden:not(:checkbox)',
+				errorElement : 'label',
+				errorClass : 'is-invalid',
+				validClass : 'is-valid',
+				rules : {
+					name : {
+						required : true,
+					},
+
+				},
+				messages : {
+					name : {
+						required : 'Trường không được bỏ trống',
+					},
+				}
+			});
+			//Fill data for update form
+			$("table .edit").on(
+					"click",
+					function() {
+						var id = $(this).parent().find("#id").val();
+						$.ajax({
+							type : 'GET',
+							url : "[[@{/manage/category/}]]" + id,
+							success : function(data) {
+								$("#updateCategoryModal #id").val(data.id);
+								$("#updateCategoryModal #categoryName").val(
+										data.name);
+								$("#updateCategoryModal #parent").val(
+										data.parentCategory.id).change();
+								$("#updateCategoryModal #level")
+										.val(data.level).change();
+								$("#updateCategoryModal").modal('show');
+							}
+						});
+					});
+			//Parent select list filter
+			/* $('.parent-filter').on('keyup',()=>{
+				var keyword = $(this).val();
+			    var select = $('#parentCategory').val();
+			    console.log(select);
+			    
+			}); */
+			/* Delete confirmation script */
+			$('#confirm-delete').on(
+					'show.bs.modal',
+					function(e) {
+						$(this).find('#confirm-header').text("Xác nhận xóa \""+ $(e.relatedTarget).data('label')+"\"");
+						$(this).find('.btn-ok').attr(
+								'href',
+								'/manage/category/delete/'
+										+ $(e.relatedTarget).attr('value'));
+					});
+		</script>
+	</th:block>
+</body>
+</html>

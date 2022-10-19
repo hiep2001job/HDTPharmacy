@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/assets/es6/pages/icon.js":
+/***/ "./app/admin/es6/pages/icon.js":
 /*!**************************************!*\
-  !*** ./app/assets/es6/pages/icon.js ***!
+  !*** ./app/admin/es6/pages/icon.js ***!
   \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class Icon {\r\n\r\n    static init() {\r\n        function copy(value)  {\r\n            const promise = new Promise((resolve) => {\r\n                let copyTextArea = null;\r\n                try {\r\n                    copyTextArea = document.createElement(\"textarea\");\r\n                    copyTextArea.style.height = '0px';\r\n                    copyTextArea.style.opacity = '0';\r\n                    copyTextArea.style.width = '0px';\r\n                    document.body.appendChild(copyTextArea);\r\n                    copyTextArea.value = value;\r\n                    copyTextArea.select();\r\n                    document.execCommand('copy');\r\n                    resolve(value);\r\n                } finally {\r\n                    if (copyTextArea && copyTextArea.parentNode) {\r\n                        copyTextArea.parentNode.removeChild(copyTextArea);\r\n                    }\r\n                }\r\n            });\r\n    \r\n            return (promise);\r\n        }\r\n\r\n        function showToast() {\r\n            var toastHTML = `<div class=\"toast fade hide\" data-delay=\"1500\">\r\n                <div class=\"toast-body\">\r\n                    <i class=\"anticon anticon-check-o text-success\"></i>\r\n                    <span class=\"ml-1\">Copied</span>\r\n                </div>\r\n            </div>`\r\n        \r\n            $('#notification-toast').append(toastHTML)\r\n            $('#notification-toast .toast').toast('show');\r\n            setTimeout(function(){ \r\n                $('#notification-toast .toast:first-child').remove();\r\n            }, 1500);\r\n        }\r\n\r\n        $('.icons-list li').on('click', (e) => {\r\n            const $this = $(e.currentTarget);\r\n            const copiedString = $this.children('.icon-wrap').html()\r\n            copy(copiedString).then(() => {\r\n                showToast()\r\n            });\r\n        })\r\n    }\r\n    \r\n}\r\n\r\n$(() => { Icon.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/assets/es6/pages/icon.js?");
+eval("class Icon {\r\n\r\n    static init() {\r\n        function copy(value)  {\r\n            const promise = new Promise((resolve) => {\r\n                let copyTextArea = null;\r\n                try {\r\n                    copyTextArea = document.createElement(\"textarea\");\r\n                    copyTextArea.style.height = '0px';\r\n                    copyTextArea.style.opacity = '0';\r\n                    copyTextArea.style.width = '0px';\r\n                    document.body.appendChild(copyTextArea);\r\n                    copyTextArea.value = value;\r\n                    copyTextArea.select();\r\n                    document.execCommand('copy');\r\n                    resolve(value);\r\n                } finally {\r\n                    if (copyTextArea && copyTextArea.parentNode) {\r\n                        copyTextArea.parentNode.removeChild(copyTextArea);\r\n                    }\r\n                }\r\n            });\r\n    \r\n            return (promise);\r\n        }\r\n\r\n        function showToast() {\r\n            var toastHTML = `<div class=\"toast fade hide\" data-delay=\"1500\">\r\n                <div class=\"toast-body\">\r\n                    <i class=\"anticon anticon-check-o text-success\"></i>\r\n                    <span class=\"ml-1\">Copied</span>\r\n                </div>\r\n            </div>`\r\n        \r\n            $('#notification-toast').append(toastHTML)\r\n            $('#notification-toast .toast').toast('show');\r\n            setTimeout(function(){ \r\n                $('#notification-toast .toast:first-child').remove();\r\n            }, 1500);\r\n        }\r\n\r\n        $('.icons-list li').on('click', (e) => {\r\n            const $this = $(e.currentTarget);\r\n            const copiedString = $this.children('.icon-wrap').html()\r\n            copy(copiedString).then(() => {\r\n                showToast()\r\n            });\r\n        })\r\n    }\r\n    \r\n}\r\n\r\n$(() => { Icon.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/admin/es6/pages/icon.js?");
 
 /***/ }),
 
 /***/ 13:
 /*!********************************************!*\
-  !*** multi ./app/assets/es6/pages/icon.js ***!
+  !*** multi ./app/admin/es6/pages/icon.js ***!
   \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\icon.js */\"./app/assets/es6/pages/icon.js\");\n\n\n//# sourceURL=webpack:///multi_./app/assets/es6/pages/icon.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\icon.js */\"./app/admin/es6/pages/icon.js\");\n\n\n//# sourceURL=webpack:///multi_./app/admin/es6/pages/icon.js?");
 
 /***/ })
 

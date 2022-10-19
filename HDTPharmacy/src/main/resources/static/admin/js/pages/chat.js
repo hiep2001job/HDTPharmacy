@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/assets/es6/pages/chat.js":
+/***/ "./app/admin/es6/pages/chat.js":
 /*!**************************************!*\
-  !*** ./app/assets/es6/pages/chat.js ***!
+  !*** ./app/admin/es6/pages/chat.js ***!
   \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("class Chat {\r\n\r\n    static init() {\r\n\r\n        const chartContent = '.chat-content'\r\n\r\n        $('.chat-user-list .chat-list-item').on('click', () => {\r\n            $(chartContent).addClass('open')\r\n        })\r\n\r\n        $('.chat-close').on('click', () => {\r\n            $(chartContent).removeClass('open')\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { Chat.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/assets/es6/pages/chat.js?");
+eval("class Chat {\r\n\r\n    static init() {\r\n\r\n        const chartContent = '.chat-content'\r\n\r\n        $('.chat-user-list .chat-list-item').on('click', () => {\r\n            $(chartContent).addClass('open')\r\n        })\r\n\r\n        $('.chat-close').on('click', () => {\r\n            $(chartContent).removeClass('open')\r\n        })\r\n    }\r\n}\r\n\r\n$(() => { Chat.init(); });\r\n\r\n\n\n//# sourceURL=webpack:///./app/admin/es6/pages/chat.js?");
 
 /***/ }),
 
 /***/ 2:
 /*!********************************************!*\
-  !*** multi ./app/assets/es6/pages/chat.js ***!
+  !*** multi ./app/admin/es6/pages/chat.js ***!
   \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\chat.js */\"./app/assets/es6/pages/chat.js\");\n\n\n//# sourceURL=webpack:///multi_./app/assets/es6/pages/chat.js?");
+eval("module.exports = __webpack_require__(/*! C:\\Users\\Nate\\Desktop\\themeforest selling\\Enlink-bootstrap\\v1.0.0\\Enlink - Bootstrap Admin Template\\demo\\app\\assets\\es6\\pages\\chat.js */\"./app/admin/es6/pages/chat.js\");\n\n\n//# sourceURL=webpack:///multi_./app/admin/es6/pages/chat.js?");
 
 /***/ })
 
