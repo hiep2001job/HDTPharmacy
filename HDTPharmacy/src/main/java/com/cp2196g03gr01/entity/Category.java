@@ -12,11 +12,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import org.springframework.stereotype.Indexed;
 
 import com.cp2196g03gr01.common.CategoryLevelEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -25,7 +28,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "category")
+@Table(name = "category",indexes = {@Index(name = "fulltextIndex",columnList = "category_name")})
 public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,4 +72,9 @@ public class Category {
     	}
     	return result;
     }
+    
+    @Transient
+	public String getPhotoPath() {
+		return "/category-images/" + this.image;
+	}
 }

@@ -1,5 +1,9 @@
 package com.cp2196g03gr01.category;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +93,14 @@ public class CategoryRepositotyTest {
 		}
 
 		
+	}
+	
+	@Test 
+	public void  ftsCategoryByName() {
+		List<Category> list=categoryRepository.findFullTextSearchByName("sinh thiết");
+		for(Category cat:list) {
+			System.out.println(cat.getName());
+		}
 	}
 
 	@Test

@@ -9,7 +9,7 @@ import java.nio.file.StandardCopyOption;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileUploader {
+public class FileHandler {
 	public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
 		// get path folder to upload file
 		Path uploadPath = Paths.get(uploadDir);
@@ -45,7 +45,7 @@ public class FileUploader {
 	}
 
 	public static void removeDir(String dir) {
-		clearDir(dir);
+//		clearDir(dir);
 		try {
 			Files.delete(Paths.get(dir));
 		} catch (Exception e) {

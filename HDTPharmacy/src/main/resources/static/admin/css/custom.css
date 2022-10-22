@@ -9,3 +9,6 @@
 }
 
 /* Input image file */
+.img-thumbnail:hover{
+	cursor: pointer;
+}
