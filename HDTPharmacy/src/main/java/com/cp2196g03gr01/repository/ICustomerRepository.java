@@ -2,6 +2,8 @@ package com.cp2196g03gr01.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ICustomerRepository extends JpaRepository<, ID>{
+import com.cp2196g03gr01.entity.Customer;
+
+public interface ICustomerRepository extends JpaRepository<Customer, Long>{
 
 }
