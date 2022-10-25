@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import com.cp2196g03gr01.common.CategoryLevelEnum;
@@ -97,7 +100,7 @@ public class CategoryRepositotyTest {
 	
 	@Test 
 	public void  ftsCategoryByName() {
-		List<Category> list=categoryRepository.findFullTextSearchByName("sinh thiết");
+		Page<Category> list=categoryRepository.findFullTextSearchByName("sinh thiết",PageRequest.of(0, 5));
 		for(Category cat:list) {
 			System.out.println(cat.getName());
 		}

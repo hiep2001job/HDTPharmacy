@@ -1,7 +1,10 @@
 package com.cp2196g03gr01.controller;
 
 import java.io.IOException;
+import java.util.Random;
 
+import javax.persistence.PersistenceException;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,40 +45,47 @@ public class CategoryController {
 		Pageable pageRequest = PageRequest.of(page, 8);
 		Page<Category> categories = categoryService.showAllCategory(keyword, pageRequest);
 		PageRender<Category> pageRender = new PageRender<>("/manage/category", categories);
-
+//
 		model.addAttribute("categoryList", categories);
+		model.addAttribute("parents", categoryService.showAllCategory());
+//		Pagination
 		model.addAttribute("page", pageRender);
 		model.addAttribute("key", keyword);
-		model.addAttribute("category", new Category());
-		model.addAttribute("parents", categoryService.showAllCategory());
 		model.addAttribute("currentPage", page);
+		
 
 		return "category/index";
 	}
 
 	@PostMapping
+	@Transactional(rollbackOn = { IOException.class, PersistenceException.class })
 	public String storeCategory(@RequestParam(name = "currentPage", defaultValue = "0") int page,
 			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, @Valid Category category,
 			@RequestParam("categoryImage") MultipartFile file) throws IOException {
 
 		if (!file.isEmpty()) {
-			String formatFileName = SlugHandler.toSlug(category.getName()) + file.getOriginalFilename().split("\\.")[1];
-			;
+			String formatFileName = SlugHandler.toSlug(category.getName())
+					+ String.format("%04d", new Random().nextInt(10000)) + "."
+					+ file.getOriginalFilename().split("\\.")[1];
 			String fileName = StringUtils.cleanPath(formatFileName);
 			category.setImage(fileName);
 
 			String uploadDir = "../category-images/";
-			FileHandler.clearDir(uploadDir);
+			
 			FileHandler.saveFile(uploadDir, fileName, file);
 		}
 
 		category.setAlias(SlugHandler.toSlug(category.getName()));
+		
 		categoryService.save(category);
+		
 		model.addAttribute("message", "Lưu phân loại thành công");
+		
 		return list(page, keyword, model);
 	}
 
 	@PostMapping("/update")
+	@Transactional(rollbackOn = { IOException.class, PersistenceException.class })
 	public RedirectView updateCategory(@RequestParam(name = "currentPage", defaultValue = "0") int page,
 			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, @Valid Category category,
 			@RequestParam("categoryImage") MultipartFile file) throws IOException {
@@ -85,14 +95,14 @@ public class CategoryController {
 			String dirCategory = "../category-images/" + category.getImage();
 			FileHandler.removeDir(dirCategory);
 //			Upload new image
-			String formatFileName = SlugHandler.toSlug(category.getName()) + "."
+			String formatFileName = SlugHandler.toSlug(category.getName())
+					+ String.format("%04d", new Random().nextInt(10000)) + "."
 					+ file.getOriginalFilename().split("\\.")[1];
 			;
 			String fileName = StringUtils.cleanPath(formatFileName);
-			category.setImage(fileName);
-
 			String uploadDir = "../category-images/";
 			FileHandler.saveFile(uploadDir, fileName, file);
+			category.setImage(fileName);
 		}
 
 		category.setAlias(SlugHandler.toSlug(category.getName()));

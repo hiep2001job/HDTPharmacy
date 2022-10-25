@@ -4,7 +4,7 @@
 	layout:decorate="layouts/adminLayout.html">
 <head>
 <meta charset="ISO-8859-1">
-<title layout:fragment="title">Quản lý phân loại</title>
+<title layout:fragment="title">Quản lý sản phẩm</title>
 
 <!-- Page style -->
 <th:block layout:fragment="pageStyle">
@@ -24,12 +24,12 @@
 	<div layout:fragment="content">
 
 		<div class="page-header">
-			<h2 class="header-title">Quản lí phân loại</h2>
+			<h2 class="header-title">Quản lý sản phẩm</h2>
 			<div class="header-sub-title">
 				<nav class="breadcrumb breadcrumb-dash">
 					<a th:href="@{/manage/dashboard}" class="breadcrumb-item"> <i
-						class="anticon anticon-home m-r-5"></i>Quản lí
-					</a> <a class="breadcrumb-item" href="#">Phân loại</a>
+						class="anticon anticon-home m-r-5"></i>Quản lý
+					</a> <a class="breadcrumb-item" href="#">Sản phẩm</a>
 				</nav>
 			</div>
 		</div>
@@ -39,7 +39,7 @@
 				<div class="row m-b-30">
 
 					<div class="col-lg-4">
-						<form th:action="@{/manage/category}">
+						<form th:action="@{/manage/product}">
 							<div class="input-affix">
 								<i class="prefix-icon anticon anticon-search"></i> <input
 									type="search" name="key" th:value="${key}"
@@ -53,9 +53,9 @@
 
 					<div class="col-lg-8 text-right">
 						<button type="button" class="btn btn-primary" data-toggle="modal"
-							data-target="#createCategoryModal">
+							data-target="#createProductModal">
 							<i class="anticon anticon-plus-circle m-r-5"></i> <span>Tạo
-								phân loại</span>
+								sản phẩm</span>
 						</button>
 					</div>
 
@@ -65,43 +65,36 @@
 					<table id="data-table" class="table">
 						<thead>
 							<tr>
-								<th>Phân loại</th>
-								<th>Phân loại cha</th>
-								<th>Hiển thị online</th>
-								<th>Tùy chỉnh</th>
+								<th>Sản phẩm</th>
+								<th>Giá bán</th>
+								<th>Nhà cung cấp</th>
+								<th>Thao tác</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="item : ${categoryList}">
-								<td><img th:if="${item.image!=null}" width="100"
-									th:src="@{${item.getPhotoPath()}}" />&nbsp;&nbsp;
-									[[${item.name}]]</td>
-								<td>[[${item.getParentName}]]</td>
-								<td><div class="switch m-r-10">
-										<input type="checkbox" disabled
-											th:checked="${item.showOnline!=null?item.showOnline:'false'}"
-											th:attr="id=${'switch-'+item.id}" name="showOnline">
-										<label th:attr="for=${'switch-'+item.id}"></label>
-									</div> <label class="font-weight-semibold">Hiển thị online</label></td>
-								<td class="">
-								<a
+							<tr th:each="item : ${productList}">
+								<td>
+									<img th:if="${item.imagePrimary!=null}" width="100"
+									th:src="@{${item.getPrimaryPhotoPath()}}" />&nbsp;&nbsp;
+									[[${item.name}]]
+								</td>
+								<td>[[${item.salePrice}]]</td>
+								<td class=""><a
 									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit">
 										<i class="anticon anticon-edit"></i>
-								</a> 
-								<a th:attr="data-label=${item.name}" th:value="${item.id}"
+								</a> <a th:attr="data-label=${item.name}" th:value="${item.id}"
 									data-toggle="modal" data-target="#confirm-delete"
 									class="btn btn-icon btn-hover btn-sm btn-rounded"> <i
 										class="anticon anticon-delete"></i>
-								</a> 
-								<input id="id" th:value="${item.id}" hidden /></td>
+								</a> <input id="id" th:value="${item.id}" hidden /></td>
 							</tr>
 						</tbody>
 						<tfoot>
 							<tr>
-								<th>Phân loại</th>
-								<th>Phân loại cha</th>
-								<th>Hiển thị online</th>
-								<th>Tùy chỉnh</th>
+								<th>Sản phẩm</th>
+								<th>Giá bán</th>
+								<th>Nhà cung cấp</th>
+								<th>Thao tác</th>
 							</tr>
 						</tfoot>
 					</table>
@@ -111,62 +104,93 @@
 		</div>
 
 		<!--Create Category Modal -->
-		<div class="modal fade" id="createCategoryModal">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Tạo phân
-							loại</h5>
+		<div class="modal fade" id="createProductModal">
+			<div
+				class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable ">
+				<div class="modal-content custom-scrollbar">
+					<div class="modal-header text-center">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Tạo sản
+							phẩm</h5>
 						<button type="button" class="close" data-dismiss="modal">
 							<i class="anticon anticon-close"></i>
 						</button>
 					</div>
 					<div class="modal-body">
 						<form id="createCategory" th:method="post"
-							enctype="multipart/form-data" th:action="@{/manage/category}">
+							enctype="multipart/form-data" th:action="@{/manage/product}">
 							<input hidden name="currentPage" th:value="${currentPage}" />
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Tên
-									phân loại:</label> <input type="text" name="name" class="form-control"
-									id="categoryName" placeholder="Phân loại">
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Tên sản
+									phẩm</label> <input type="text" name="name"
+									class="form-control image-input" id="name"
+									placeholder="Sản phẩm">
 							</div>
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Hình
-									đại diện:</label> <img th:src="@{/admin/images/others/adobe-thumb.png}"
-									width="150" id="previewCreate" class="img-thumbnail"> <input
-									type="file" hidden accept="image/*" id="createImg"
-									name="categoryImage" />
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="categoryName">Ảnh
+									sản phẩm:</label>
+								<div class="input-image-primary text-center">
+									<img th:src="@{/admin/images/others/adobe-thumb.png}"
+										width="200" id="previewCreate1" class="img-thumbnail"> <input
+										type="file" hidden accept="image/*" id="createImg1"
+										name="primaryImage" class="image-input" />
+								</div>
+								<div class="input-image-orthers">
+									<div class="input-image text-center">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="120" id="previewCreatePrimary" class="img-thumbnail">
+										<input type="file" hidden accept="image/*"
+											id="createImgPrimary" name="imageFile1" class="image-input" />
+									</div>
+									<div class="input-image text-center">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="120" id="previewCreatePrimary" class="img-thumbnail">
+										<input type="file" hidden accept="image/*"
+											id="createImgPrimary" name="imageFile2" class="image-input" />
+									</div>
+									<div class="input-image text-center">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="120" id="previewCreatePrimary" class="img-thumbnail">
+										<input type="file" hidden accept="image/*"
+											id="createImgPrimary" name="imageFile3" class="image-input" />
+									</div>
+									<div class="input-image text-center">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="120" id="previewCreatePrimary" class="img-thumbnail">
+										<input type="file" hidden accept="image/*"
+											id="createImgPrimary" name="imageFile4" class="image-input" />
+									</div>
+								</div>
 							</div>
 
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Phân
-									loại cha:</label> <select class="filter-select" id="parentCategory"
-									name="parentCategory">
-									<option value="">-- Chọn phân loại cha --</option>
-									<th:block th:each="cat : ${parents}">
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="category">Thuộc
+									phân loại:</label> <select class="filter-select" id="category"
+									name="category">
+									<option value="">-- Chọn phân loại --</option>
+									<th:block th:each="cat : ${categoryList}">
 										<option th:value="${cat.id}">[[${cat.name}]]</option>
 									</th:block>
 
 								</select>
 
 							</div>
-
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Level:</label>
-								<select class="custom-select" id="productCategory" name="level">
-									<option
-										th:each="level : ${T(com.cp2196g03gr01.common.CategoryLevelEnum).values()}"
-										th:value="${level}">[[${level.getValue()}]]</option>
-								</select>
-							</div>
 							<div class="form-group d-flex align-items-center col-md-6 ">
 								<div class="switch m-r-10">
-									<input type="checkbox" id="switch-1" name="showOnline">
-									<label for="switch-1"></label>
+									<input type="checkbox" id="switch-1" name="isDrug"> <label
+										for="switch-1"></label>
 								</div>
-								<label class="font-weight-semibold">Hiển thị online</label>
+								<label class="font-weight-semibold">Thuốc</label>
 							</div>
-
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Mã thuốc</label>
+								<input type="text" name="drugId" class="form-control" id="name"
+									placeholder="Mã thuốc">
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Nhóm
+									thuốc</label> <input type="text" name="drugGroup" class="form-control"
+									id="name" placeholder="Nhóm thuốc">
+							</div>
 						</form>
 
 					</div>
@@ -183,8 +207,8 @@
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Chỉnh
-							sửa phân loại</h5>
+						<h5 class="modal-title" id="exampleModalCenterTitle">Chá»nh
+							sá»­a phÃ¢n loáº¡i</h5>
 						<button type="button" class="close" data-dismiss="modal">
 							<i class="anticon anticon-close"></i>
 						</button>
@@ -193,27 +217,27 @@
 						<form id="updateCategory" th:method="POST"
 							enctype="multipart/form-data"
 							th:action="@{/manage/category/update}">
-							<input type='hidden' name="id" id="id" /> 
-							<input hidden name="currentPage" th:value="${currentPage}" />
+							<input type='hidden' name="id" id="id" /> <input hidden
+								name="currentPage" th:value="${currentPage}" />
 							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Tên
-									phân loại:</label> <input type="text" class="form-control"
+								<label class="font-weight-semibold" for="categoryName">TÃªn
+									phÃ¢n loáº¡i:</label> <input type="text" class="form-control"
 									id="categoryName" name="name" placeholder="Phân loại">
 							</div>
 							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Hình
-									đại diện:</label> <img th:src="@{/admin/images/others/adobe-thumb.png}"
-									width="150" id="previewUpdate" class="img-thumbnail"> <input
+								<label class="font-weight-semibold" for="categoryName">HÃ¬nh
+									Äáº¡i diá»n:</label> <img
+									th:src="@{/admin/images/others/adobe-thumb.png}" width="150"
+									id="previewUpdate" class="img-thumbnail"> <input
 									type="file" hidden accept="image/*" id="updateImg"
 									name="categoryImage" /> <input hidden id="oldImage"
 									name="image" />
 							</div>
 							<div class="form-group">
-								<label class="font-weight-semibold" for="parent">Phân
-									loại cha:</label> <select class="filter-select" name="parentCategory"
+								<label class="font-weight-semibold" for="parent">PhÃ¢n
+									loáº¡i cha:</label> <select class="filter-select" name="parentCategory"
 									id="parent">
-									<option value="">-- Chọn phân loại cha --</option>
-									
+									<option value="">-- Chá»n phÃ¢n loáº¡i cha --</option>
 									<th:block th:each="cat : ${parents}">
 										<option th:value="${cat.id}">[[${cat.name}]]</option>
 									</th:block>
@@ -230,16 +254,7 @@
 										th:value="${level}">[[${level.getValue()}]]</option>
 								</select>
 							</div>
-							<div class="form-group d-flex align-items-center col-md-6 ">
-								<div class="switch m-r-10">
-									<input type="checkbox" id="showOnline" name="showOnline">
-									<label for="showOnline"></label>
-								</div>
-								<label class="font-weight-semibold">Hiển thị online</label>
-							</div>
-
 						</form>
-
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
@@ -255,8 +270,7 @@
 			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
-					<div class="modal-header" id="confirm-header">Xác nhận xóa</div>
-
+					<div class="modal-header" id="confirm-header"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
 						<a class="btn btn-danger btn-ok">Xóa</a>
@@ -297,11 +311,10 @@
 					name : {
 						required : true,
 					},
-
 				},
 				messages : {
 					name : {
-						required : 'Trường không được bỏ trống',
+						required : 'Trường không được',
 					},
 				}
 			});
@@ -329,11 +342,7 @@
 									$("#updateCategoryModal #previewUpdate")
 									.attr('src','[[@{/admin/images/others/adobe-thumb.png}]]');
 								}
-								if (data.showOnline != null) {
-									$("#updateCategoryModal #showOnline").attr('checked',data.showOnline);
-								}else{
-									$("#updateCategoryModal #showOnline").attr('checked',false);
-								}
+
 								$("#updateCategoryModal #level")
 										.val(data.level).change();
 								$("#updateCategoryModal").modal('show');
@@ -356,30 +365,17 @@
 										+ "?page=[[${currentPage}]]");
 					});
 			
-			/* Image Input for create*/
-			$('#previewCreate').on('click',()=>{
-				$('#createImg').trigger('click');
+			/* Image Input*/
+			$('.img-thumbnail').on('click',function(){
+				$(this).siblings("input[type='file']").trigger('click');
 			})
-		
-			$('#createImg').on('change',function(){	
-				
-				const [file]=document.getElementById("createImg").files;
-				if(file){
-					$('#previewCreate').attr('src',URL.createObjectURL(file));
-				}				
+			$('.image-input').on('change',function(){
+				 const [file]=$(this)[0].files;				
+				 $(this).siblings(".img-thumbnail").attr('src',URL.createObjectURL(file)); 
 			})
-			/* Image Input for update*/
-			$('#previewUpdate').on('click',()=>{
-				$('#updateImg').trigger('click');
-			})
-		
-			$('#updateImg').on('change',function(){	
-				
-				const [file]=document.getElementById("updateImg").files;
-				if(file){
-					$('#previewUpdate').attr('src',URL.createObjectURL(file));
-				}				
-			})
+			
+	
+			
 		</script>
 	</th:block>
 </body>

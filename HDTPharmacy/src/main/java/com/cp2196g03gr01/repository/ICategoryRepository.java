@@ -21,6 +21,6 @@ public interface ICategoryRepository extends JpaRepository<Category, Long> {
 	
 	List<Category> findByParentCategoryId(Long id);
 	
-	@Query(value = "SELECT cat.* FROM category cat WHERE MATCH (cat.category_name) AGAINST (:name IN NATURAL LANGUAGE MODE)", nativeQuery = true)
+	@Query(value = "SELECT cat.* FROM category cat WHERE MATCH(cat.category_name) AGAINST (:name IN NATURAL LANGUAGE MODE)", nativeQuery = true)
     public Page<Category> findFullTextSearchByName(@Param("name") String name,Pageable pageable);
 }

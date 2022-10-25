@@ -25,6 +25,7 @@ import com.cp2196g03gr01.common.CategoryLevelEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -77,4 +78,9 @@ public class Category {
 	public String getPhotoPath() {
 		return "/category-images/" + this.image;
 	}
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", alias=" + alias + "]";
+	}    
 }

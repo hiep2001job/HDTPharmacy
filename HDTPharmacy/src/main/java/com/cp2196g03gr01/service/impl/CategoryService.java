@@ -28,8 +28,10 @@ public class CategoryService implements ICategoryService {
 
 	@Override
 	public Page<Category> showAllCategory(String keyword, Pageable pageable) {
-		if(keyword.isEmpty())
+		
+		if(keyword.trim().isEmpty())
 			return categoryRepository.findAll(pageable);
+		
 		return categoryRepository.findFullTextSearchByName(keyword,pageable);
 	}
 
