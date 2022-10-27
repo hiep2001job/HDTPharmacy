@@ -4,7 +4,7 @@
 	layout:decorate="layouts/adminLayout.html">
 <head>
 <meta charset="ISO-8859-1">
-<title layout:fragment="title">Quản lý phân loại</title>
+<title layout:fragment="title">Quản lý nhà cung cấp</title>
 
 <!-- Page style -->
 <th:block layout:fragment="pageStyle">
@@ -24,12 +24,12 @@
 	<div layout:fragment="content">
 
 		<div class="page-header">
-			<h2 class="header-title">Quản lí phân loại</h2>
+			<h2 class="header-title">Quản lí nhà cung cấp</h2>
 			<div class="header-sub-title">
 				<nav class="breadcrumb breadcrumb-dash">
 					<a th:href="@{/manage/dashboard}" class="breadcrumb-item"> <i
 						class="anticon anticon-home m-r-5"></i>Quản lí
-					</a> <a class="breadcrumb-item" href="#">Phân loại</a>
+					</a> <a class="breadcrumb-item" href="#">Nhà cung cấp</a>
 				</nav>
 			</div>
 		</div>
@@ -39,7 +39,7 @@
 				<div class="row m-b-30">
 
 					<div class="col-lg-4">
-						<form th:action="@{/manage/category}">
+						<form th:action="@{/manage/supplier}">
 							<div class="input-affix">
 								<i class="prefix-icon anticon anticon-search"></i> <input
 									type="search" name="key" th:value="${key}"
@@ -51,9 +51,9 @@
 
 					<div class="col-lg-8 text-right">
 						<button type="button" class="btn btn-primary" data-toggle="modal"
-							data-target="#createCategoryModal">
+							data-target="#createSupplierModal">
 							<i class="anticon anticon-plus-circle m-r-5"></i> <span>Tạo
-								phân loại</span>
+								nhà cung cấp</span>
 						</button>
 					</div>
 
@@ -63,42 +63,34 @@
 					<table id="data-table" class="table">
 						<thead>
 							<tr>
-								<th>Phân loại</th>
-								<th>Phân loại cha</th>
-								<th>Hiển thị online</th>
+								<th>Nhà cung cấp</th>
+								<th>Điện thoại</th>
+								<th>Địa chỉ</th>
 								<th>Tùy chỉnh</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="item : ${categoryList}">
+							<tr th:each="item : ${supplierList}">
 								<td><img th:if="${item.image!=null}" width="100"
 									th:src="@{${item.getPhotoPath()}}" />&nbsp;&nbsp;
 									[[${item.name}]]</td>
-								<td>[[${item.getParentName}]]</td>
-								<td><div class="switch m-r-10">
-										<input type="checkbox" disabled
-											th:checked="${item.showOnline!=null?item.showOnline:'false'}"
-											th:attr="id=${'switch-'+item.id}" name="showOnline">
-										<label th:attr="for=${'switch-'+item.id}"></label>
-									</div> </td>
-								<td class="">
-								<a
+								<td>[[${item.phone}]]</td>
+								<td>[[${item.address}]]</td>
+								<td><a
 									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit">
 										<i class="anticon anticon-edit"></i>
-								</a> 
-								<a th:attr="data-label=${item.name}" th:value="${item.id}"
+								</a> <a th:attr="data-label=${item.name}" th:value="${item.id}"
 									data-toggle="modal" data-target="#confirm-delete"
 									class="btn btn-icon btn-hover btn-sm btn-rounded"> <i
 										class="anticon anticon-delete"></i>
-								</a> 
-								<input id="id" th:value="${item.id}" hidden /></td>
+								</a> <input id="id" th:value="${item.id}" hidden /></td>
 							</tr>
 						</tbody>
 						<tfoot>
 							<tr>
-								<th>Phân loại</th>
-								<th>Phân loại cha</th>
-								<th>Hiển thị online</th>
+								<th>Nhà cung cấp</th>
+								<th>Điện thoại</th>
+								<th>Địa chỉ</th>
 								<th>Tùy chỉnh</th>
 							</tr>
 						</tfoot>
@@ -109,7 +101,7 @@
 		</div>
 
 		<!--Create Category Modal -->
-		<div class="modal fade" id="createCategoryModal">
+		<div class="modal fade" id="createSupplierModal">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -191,8 +183,8 @@
 						<form id="updateCategory" th:method="POST"
 							enctype="multipart/form-data"
 							th:action="@{/manage/category/update}">
-							<input type='hidden' name="id" id="id" /> 
-							<input hidden name="currentPage" th:value="${currentPage}" />
+							<input type='hidden' name="id" id="id" /> <input hidden
+								name="currentPage" th:value="${currentPage}" />
 							<div class="form-group">
 								<label class="font-weight-semibold" for="categoryName">Tên
 									phân loại:</label> <input type="text" class="form-control"
@@ -211,7 +203,7 @@
 									loại cha:</label> <select class="filter-select" name="parentCategory"
 									id="parent">
 									<option value="">-- Chọn phân loại cha --</option>
-									
+
 									<th:block th:each="cat : ${parents}">
 										<option th:value="${cat.id}">[[${cat.name}]]</option>
 									</th:block>
@@ -349,7 +341,7 @@
 										+ "\"");
 						$(this).find('.btn-ok').attr(
 								'href',
-								'/manage/category/delete/'
+								'/manage/supplier/delete/'
 										+ $(e.relatedTarget).attr('value')
 										+ "?page=[[${currentPage}]]");
 					});

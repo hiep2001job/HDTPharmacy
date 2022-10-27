@@ -67,17 +67,15 @@
 							<tr>
 								<th>Sản phẩm</th>
 								<th>Giá bán</th>
-								<th>Nhà cung cấp</th>
 								<th>Thao tác</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="item : ${productList}">
-								<td>
-									<img th:if="${item.imagePrimary!=null}" width="100"
+							<tr th:each="item : ${productList}" th:attr="data-id=${item.id}"
+								class="view-detail">
+								<td><img th:if="${item.imagePrimary!=null}" width="100"
 									th:src="@{${item.getPrimaryPhotoPath()}}" />&nbsp;&nbsp;
-									[[${item.name}]]
-								</td>
+									[[${item.name}]]</td>
 								<td>[[${item.salePrice}]]</td>
 								<td class=""><a
 									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit">
@@ -93,7 +91,6 @@
 							<tr>
 								<th>Sản phẩm</th>
 								<th>Giá bán</th>
-								<th>Nhà cung cấp</th>
 								<th>Thao tác</th>
 							</tr>
 						</tfoot>
@@ -105,8 +102,7 @@
 
 		<!--Create Category Modal -->
 		<div class="modal fade" id="createProductModal">
-			<div
-				class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable ">
+			<div class="modal-dialog modal-dialog-centered modal-xl  ">
 				<div class="modal-content custom-scrollbar">
 					<div class="modal-header text-center">
 						<h5 class="modal-title" id="exampleModalCenterTitle">Tạo sản
@@ -118,84 +114,182 @@
 					<div class="modal-body">
 						<form id="createCategory" th:method="post"
 							enctype="multipart/form-data" th:action="@{/manage/product}">
-							<input hidden name="currentPage" th:value="${currentPage}" />
-							<div class="form-group col-md-6">
-								<label class="font-weight-semibold" for="name">Tên sản
-									phẩm</label> <input type="text" name="name"
-									class="form-control image-input" id="name"
-									placeholder="Sản phẩm">
-							</div>
-							<div class="form-group col-md-6">
-								<label class="font-weight-semibold" for="categoryName">Ảnh
-									sản phẩm:</label>
-								<div class="input-image-primary text-center">
-									<img th:src="@{/admin/images/others/adobe-thumb.png}"
-										width="200" id="previewCreate1" class="img-thumbnail"> <input
-										type="file" hidden accept="image/*" id="createImg1"
-										name="primaryImage" class="image-input" />
+
+							<div class="row">
+								<div id="col-left" class="col-6">
+									<input hidden name="currentPage" th:value="${currentPage}" />
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Tên sản
+											phẩm: </label> <input type="text" name="name"
+											class="form-control image-input" id="name"
+											placeholder="Sản phẩm">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Giá
+											bán: </label> <input type="number" name="salePrice"
+											class="form-control" id="name" placeholder="Giá bán">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="categoryName">Ảnh
+											sản phẩm:</label>
+										<div class="input-image-primary text-center">
+											<img th:src="@{/admin/images/others/adobe-thumb.png}"
+												width="200" id="previewCreate1" class="img-thumbnail">
+											<input type="file" hidden accept="image/*" id="createImg1"
+												name="primaryImage" class="image-input" />
+										</div>
+										<div class="input-image-orthers">
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="createImgPrimary" name="imageFile1" class="image-input" />
+											</div>
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="createImgPrimary" name="imageFile2" class="image-input" />
+											</div>
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="createImgPrimary" name="imageFile3" class="image-input" />
+											</div>
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="createImgPrimary" name="imageFile4" class="image-input" />
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="category">Thuộc
+											phân loại:</label> <select class="filter-select" id="category"
+											name="category">
+											<option value="">-- Chọn phân loại --</option>
+											<th:block th:each="cat : ${categoryList}">
+												<option th:value="${cat.id}">[[${cat.name}]]</option>
+											</th:block>
+
+										</select>
+
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Quy
+											cách đóng gói: </label> <input type="text" name="packgaging"
+											class="form-control" id="name"
+											placeholder="Quy cách đóng gói: ">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Khối
+											lượng: </label> <input type="text" name="weight"
+											class="form-control image-input" id="name"
+											placeholder="Khối lượng">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Điểm
+											tích lũy: </label> <input type="text" name="weight"
+											class="form-control image-input" id="name"
+											placeholder="Điểm tích lũy">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Vị trí
+											kệ: </label> <input type="text" name="position"
+											class="form-control image-input" id="name"
+											placeholder="Vị trí kệ">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Tồn
+											kho: </label> <input type="text" name="stock"
+											class="form-control image-input" id="name"
+											placeholder="Tồn kho">
+									</div>
 								</div>
-								<div class="input-image-orthers">
-									<div class="input-image text-center">
-										<img th:src="@{/admin/images/others/adobe-thumb.png}"
-											width="120" id="previewCreatePrimary" class="img-thumbnail">
-										<input type="file" hidden accept="image/*"
-											id="createImgPrimary" name="imageFile1" class="image-input" />
+
+								<div id="col-right" class="col-6">
+									<div class="form-group d-flex align-items-center col-md-6 ">
+										<label class="font-weight-semibold mr-2">Sản phẩm là
+											thuốc: </label>
+										<div class="switch m-r-10">
+											<input type="checkbox" id="switch-1" name="isDrug"> <label
+												for="switch-1"></label>
+										</div>
+
 									</div>
-									<div class="input-image text-center">
-										<img th:src="@{/admin/images/others/adobe-thumb.png}"
-											width="120" id="previewCreatePrimary" class="img-thumbnail">
-										<input type="file" hidden accept="image/*"
-											id="createImgPrimary" name="imageFile2" class="image-input" />
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Mã
+											thuốc: </label> <input type="text" name="drugId" class="form-control"
+											id="name" placeholder="Mã thuốc">
 									</div>
-									<div class="input-image text-center">
-										<img th:src="@{/admin/images/others/adobe-thumb.png}"
-											width="120" id="previewCreatePrimary" class="img-thumbnail">
-										<input type="file" hidden accept="image/*"
-											id="createImgPrimary" name="imageFile3" class="image-input" />
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Nhóm
+											thuốc: </label> <input type="text" name="drugGroup"
+											class="form-control" id="name" placeholder="Nhóm thuốc">
 									</div>
-									<div class="input-image text-center">
-										<img th:src="@{/admin/images/others/adobe-thumb.png}"
-											width="120" id="previewCreatePrimary" class="img-thumbnail">
-										<input type="file" hidden accept="image/*"
-											id="createImgPrimary" name="imageFile4" class="image-input" />
+
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Hoạt
+											chất: </label> <input type="text" name="initialName"
+											class="form-control" id="name" placeholder="Hoạt chất">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Hàm
+											lượng: </label> <input type="text" name="concentration"
+											class="form-control" id="name" placeholder="Hàm lượng">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Cách
+											dùng: </label> <input type="text" name="absorbingWay"
+											class="form-control" id="name" placeholder="Cách dùng">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Số đăng
+											ký: </label> <input type="text" name="regisNumber"
+											class="form-control" id="name" placeholder="Số đăng ký">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Gốc
+											thuốc: </label> <input type="text" name="drugGeneric"
+											class="form-control" id="name" placeholder="Gốc thuốc">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Nhà sản
+											xuất: </label> <input type="text" name="manufacturer"
+											class="form-control" id="name" placeholder="Nhà sản xuất">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Dược
+											chất: </label> <input type="text" name="medicineSubstance"
+											class="form-control" id="name" placeholder="Dược chất">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Dược
+											liệu: </label> <input type="text" name="medicinalHerbs"
+											class="form-control" id="name" placeholder="Dược liệu">
+									</div>
+									<div class="form-group d-flex align-items-center col-md-6 ">
+										<label class="font-weight-semibold mr-2   ">Hiển thị
+											online: </label>
+										<div class="switch m-r-10">
+											<input type="checkbox" id="isOnlineSale" name="isOnlineSale">
+											<label for="isOnlineSale"></label>
+										</div>
+
 									</div>
 								</div>
 							</div>
 
-							<div class="form-group col-md-6">
-								<label class="font-weight-semibold" for="category">Thuộc
-									phân loại:</label> <select class="filter-select" id="category"
-									name="category">
-									<option value="">-- Chọn phân loại --</option>
-									<th:block th:each="cat : ${categoryList}">
-										<option th:value="${cat.id}">[[${cat.name}]]</option>
-									</th:block>
 
-								</select>
 
-							</div>
-							<div class="form-group d-flex align-items-center col-md-6 ">
-								<div class="switch m-r-10">
-									<input type="checkbox" id="switch-1" name="isDrug"> <label
-										for="switch-1"></label>
-								</div>
-								<label class="font-weight-semibold">Thuốc</label>
-							</div>
-							<div class="form-group col-md-6">
-								<label class="font-weight-semibold" for="name">Mã thuốc</label>
-								<input type="text" name="drugId" class="form-control" id="name"
-									placeholder="Mã thuốc">
-							</div>
-							<div class="form-group col-md-6">
-								<label class="font-weight-semibold" for="name">Nhóm
-									thuốc</label> <input type="text" name="drugGroup" class="form-control"
-									id="name" placeholder="Nhóm thuốc">
-							</div>
 						</form>
 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
 						<button type="submit" form="createCategory"
 							class="btn btn-primary">Lưu</button>
 					</div>
@@ -279,6 +373,170 @@
 			</div>
 		</div>
 
+
+		<!-- View detail product -->
+		<div class="modal fade" id="viewProductModal">
+			<div
+				class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable ">
+				<div class="modal-content custom-scrollbar">
+					<div class="modal-header text-center">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Chi tiết
+							sản phẩm</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<i class="anticon anticon-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+
+						<div class="row">
+
+							<div class="form-group col-md-12 row text-center">
+								<div class="input-image-primary text-center col-6">
+									<img th:src="@{/admin/images/others/adobe-thumb.png}"
+										width="410" id="imagePrimary" class="img-thumbnail">
+
+								</div>
+								<div
+									class="d-flex justify-content-center text-center  col-6 row">
+									<div class="text-center mx-2">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="200" id="image1" class="img-thumbnail">
+									</div>
+									<div class="text-center mx-2">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="200" id="image2" class="img-thumbnail">
+									</div>
+									<div class="text-center m-2">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="200" id="image3" class="img-thumbnail">
+									</div>
+									<div class="text-center m-2">
+										<img th:src="@{/admin/images/others/adobe-thumb.png}"
+											width="200s" id="image4" class="img-thumbnail">
+									</div>
+
+								</div>
+							</div>
+
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Tên sản
+									phẩm: <span class="font-weight-normal" id="name">Xịt mũi
+										Sinomarin Mini Spray Nose Care điều trị viêm mũi, nghẹt mũi
+										(30ml)</span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Giá bán:
+									<span class="font-weight-normal" id="salePrice">30 000
+										vnd</span>
+								</label>
+							</div>
+
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Phân loại
+									: <span class="font-weight-normal" id="category"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Quy cách
+									đóng gói : <span class="font-weight-normal" id="packgaging"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Khối
+									lượng : <span class="font-weight-normal" id="weight"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Điểm tích
+									lũy : <span class="font-weight-normal" id="rewardPoint"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Vị trí kệ
+									: <span class="font-weight-normal" id="position"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Tồn kho :
+									<span class="font-weight-normal" id="stock"></span>
+								</label>
+							</div>
+
+
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Mã thuốc
+									: <span class="font-weight-normal" id="drugId"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Nhóm
+									thuốc : <span class="font-weight-normal" id="drugGroup"></span>
+								</label>
+							</div>
+
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Hoạt chất
+									: <span class="font-weight-normal" id="initialName"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Hàm lượng
+									: <span class="font-weight-normal" id="concentration"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Cách dùng
+									: <span class="font-weight-normal" id="absorbingWay"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Số đăng
+									ký : <span class="font-weight-normal" id="regisNumber"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Gốc thuốc
+									: <span class="font-weight-normal" id="drugGeneric"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Nhà sản
+									xuất : <span class="font-weight-normal" id="manufacturer"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Dược
+									chất: <span class="font-weight-normal" id="medicineSubstance"></span>
+								</label>
+							</div>
+							<div class="form-group col-md-6">
+								<label class="font-weight-semibold" for="name">Dược
+									liệu: <span class="font-weight-normal" id="medicinalHerbs"></span>
+								</label>
+							</div>
+
+							<div class="form-group d-flex align-items-center col-md-6 ">
+								<label class="font-weight-semibold mr-2   ">Hiển thị
+									online: </label>
+								<div class="switch m-r-10">
+									<input type="checkbox" id="isOnlineSale" name="isOnlineSale">
+									<label for="isOnlineSale"></label>
+								</div>
+
+							</div>
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+						<button id="updateViaViewForm" class="btn btn-primary">Cập
+							nhật</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- Page script -->
@@ -314,7 +572,7 @@
 				},
 				messages : {
 					name : {
-						required : 'Trường không được',
+						required : 'Vui lòng điền tên sản phẩm',
 					},
 				}
 			});
@@ -327,28 +585,77 @@
 							type : 'GET',
 							url : "[[@{/manage/category/}]]" + id,
 							success : function(data) {
-								$("#updateCategoryModal #id").val(data.id);
-								$("#updateCategoryModal #categoryName").val(
+								$("#viewProductModal #id").val(data.id);
+								$("#viewProductModal #name").val(
 										data.name);
-								if (data.parentCategory != null) {
-									$("#updateCategoryModal #parent").val(
+								/* if (data.parentCategory != null) {
+									$("#viewProductModal #parent").val(
 											data.parentCategory.id).change();
 								}
 								if(data.image!=null){
-									$("#updateCategoryModal #previewUpdate")
+									$("#viewProductModal #previewUpdate")
 									.attr('src','[[@{/category-images/}]]'+data.image);
-									$("#updateCategoryModal #oldImage").val(data.image);
+									$("#viewProductModal #oldImage").val(data.image);
 								}else{
-									$("#updateCategoryModal #previewUpdate")
+									$("#viewProductModal #previewUpdate")
 									.attr('src','[[@{/admin/images/others/adobe-thumb.png}]]');
 								}
 
 								$("#updateCategoryModal #level")
-										.val(data.level).change();
-								$("#updateCategoryModal").modal('show');
+										.val(data.level).change(); */
+								$("#viewProductModal").modal('show');
 							}
 						});
 					});
+			/* View product detail  */
+			$('.view-detail').on('click', function () {
+				var id=$(this).data('id');
+				$.ajax({
+					type : 'GET',
+					url : "[[@{/manage/product/}]]" + id,
+					success : function(data) {
+						
+						$("#viewProductModal #name").text(data.name);
+						$("#viewProductModal #salePrice").text(data.salePrice);
+						$("#viewProductModal #category").text(data.category.name);
+						console.log(data.category.name);
+						if(data.imagePrimary)
+							$("#viewProductModal #imagePrimary").attr('src',"[[@{/product-images/}]]"+data.imagePrimary);
+						if(data.image1)
+							$("#viewProductModal #image1").attr('src',"[[@{/product-images/}]]"+data.image1);
+						if(data.image2)
+							$("#viewProductModal #image2").attr('src',"[[@{/product-images/}]]"+data.image2);
+						if(data.image3)
+							$("#viewProductModal #image3").attr('src',"[[@{/product-images/}]]"+data.image3);
+						if(data.image4)
+							$("#viewProductModal #image4").attr('src',"[[@{/product-images/}]]"+data.image4);
+						$("#viewProductModal #stock").text(data.stock);
+						$("#viewProductModal #position").text(data.position);
+						$("#viewProductModal #rewardPoint").text(data.rewardPoint);
+						$("#viewProductModal #packgaging").text(data.packgaging);
+						$("#viewProductModal #weight").text(data.weight+' g');
+						$("#viewProductModal #salePrice").text(data.salePrice);
+						
+						/* if (data.parentCategory != null) {
+							$("#viewProductModal #parent").val(
+									data.parentCategory.id).change();
+						}
+						if(data.image!=null){
+							$("#viewProductModal #previewUpdate")
+							.attr('src','[[@{/category-images/}]]'+data.image);
+							$("#viewProductModal #oldImage").val(data.image);
+						}else{
+							$("#viewProductModal #previewUpdate")
+							.attr('src','[[@{/admin/images/others/adobe-thumb.png}]]');
+						}
+
+						$("#updateCategoryModal #level")
+								.val(data.level).change(); */
+						$("#viewProductModal").modal('show');
+					}
+				});
+				
+			})
 			
 			/* Delete confirmation script */
 			$('#confirm-delete').on(
@@ -360,7 +667,7 @@
 										+ "\"");
 						$(this).find('.btn-ok').attr(
 								'href',
-								'/manage/category/delete/'
+								'/manage/product/delete/'
 										+ $(e.relatedTarget).attr('value')
 										+ "?page=[[${currentPage}]]");
 					});
@@ -372,10 +679,7 @@
 			$('.image-input').on('change',function(){
 				 const [file]=$(this)[0].files;				
 				 $(this).siblings(".img-thumbnail").attr('src',URL.createObjectURL(file)); 
-			})
-			
-	
-			
+			})	
 		</script>
 	</th:block>
 </body>

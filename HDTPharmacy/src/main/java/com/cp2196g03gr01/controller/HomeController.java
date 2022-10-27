@@ -11,4 +11,8 @@ public class HomeController {
 	public String hello() {
 		return "index";
 	}
+	@GetMapping("/login")
+	public String login() {
+		return "auth/employeeLogin";
+	}
 }

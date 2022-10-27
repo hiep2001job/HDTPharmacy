@@ -17,5 +17,5 @@ public interface IProductService {
 	Product save(@Valid Product category);
 
 
-	String delete(Long id);
+	void delete(Long id);
 }

@@ -9,50 +9,71 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.header.Header;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cp2196g03gr01.security.AuthService;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private AuthService authService;
-	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();
-		http.headers().disable();
-		http.httpBasic().authenticationEntryPoint(new AuthenticationEntryPoint() {
-			
-			@Override
-			public void commence(HttpServletRequest request, HttpServletResponse response,
-					AuthenticationException authException) throws IOException, ServletException {
-				response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
-				
-			}
-		});
-//		http.authorizeHttpRequests().antMatchers("/admin").authenticated()
-//			.and()
-//			.authorizeHttpRequests().anyRequest().permitAll();
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+	@Bean
+	public AuthService userDetailsService() {
+		return new AuthService();
 	}
-	
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	public DaoAuthenticationProvider daoAuthenticationProvider() {
+		DaoAuthenticationProvider dao = new DaoAuthenticationProvider();
+		dao.setUserDetailsService(userDetailsService());
+		dao.setPasswordEncoder(passwordEncoder());
+		dao.setHideUserNotFoundExceptions(false);
+		return dao;
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(authService).passwordEncoder(encoder());
+		auth.authenticationProvider(daoAuthenticationProvider());
 	}
-	@Bean
-	public PasswordEncoder encoder() {
-	    return new BCryptPasswordEncoder();
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/manage/employee", "/manage/category", "/manage/product")
+				.hasAuthority("MANAGER").anyRequest().authenticated()
+
+				.and().formLogin().loginPage("/login/employee").usernameParameter("email").permitAll()
+				.defaultSuccessUrl("/").failureUrl("/login/employee")
+
+				.and().exceptionHandling().accessDeniedPage("/access-denied")
+
+				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/login/employee").deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true) 
+
+				.and().logout().permitAll().and().rememberMe().key("EiRoqkIE1pnQmWEPKjG8_1123003381")
+				.tokenValiditySeconds(7 * 24 * 60 * 60);
 	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/static/**", "/webjars/**", "/admin/**");
+	}
+
 }

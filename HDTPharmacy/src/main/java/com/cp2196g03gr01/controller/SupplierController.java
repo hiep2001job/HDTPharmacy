@@ -11,11 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,110 +24,109 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.cp2196g03gr01.entity.Category;
+import com.cp2196g03gr01.entity.Supplier;
 import com.cp2196g03gr01.service.ICategoryService;
+import com.cp2196g03gr01.service.ISupplierService;
 import com.cp2196g03gr01.util.FileHandler;
 import com.cp2196g03gr01.util.PageRender;
 import com.cp2196g03gr01.util.SlugHandler;
 
 @Controller
-@RequestMapping("/manage/category")
-public class CategoryController {
+@RequestMapping("/manage/supplier")
+public class SupplierController {
 
 	@Autowired
-	private ICategoryService categoryService;
+	private ISupplierService supplierService;
 
-	/* View category list */
 	@GetMapping()
 	public String list(@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "key", defaultValue = "") String keyword, Model model) {
 
 		Pageable pageRequest = PageRequest.of(page, 5);
-		Page<Category> categories = categoryService.showAllCategory(keyword, pageRequest);
-		PageRender<Category> pageRender = new PageRender<>("/manage/category", categories);
+		Page<Supplier> suppliers = supplierService.showAllSupplier(keyword, pageRequest);
+		PageRender<Supplier> pageRender = new PageRender<>("/manage/supplier", suppliers);
 //
-		model.addAttribute("categoryList", categories);
-		model.addAttribute("parents", categoryService.showAllCategory());
+		model.addAttribute("supplierList", suppliers);
+
 //		Pagination
 		model.addAttribute("page", pageRender);
 		model.addAttribute("key", keyword);
 		model.addAttribute("currentPage", page);
-		
 
-		return "category/index";
+		return "supplier/index";
 	}
 
-	/* Create category */
 	@PostMapping
 	@Transactional(rollbackOn = { IOException.class, PersistenceException.class })
 	public String storeCategory(@RequestParam(name = "currentPage", defaultValue = "0") int page,
-			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, @Valid Category category,
+			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, @Valid Supplier supplier,
 			@RequestParam("categoryImage") MultipartFile file) throws IOException {
 
 		if (!file.isEmpty()) {
-			String formatFileName = SlugHandler.toSlug(category.getName())
+			String formatFileName = SlugHandler.toSlug(supplier.getName())
 					+ String.format("%04d", new Random().nextInt(10000)) + "."
 					+ file.getOriginalFilename().split("\\.")[1];
 			String fileName = StringUtils.cleanPath(formatFileName);
-			category.setImage(fileName);
+			supplier.setImage(fileName);
 
-			String uploadDir = "../category-images/";
-			
+			String uploadDir = "../supplier-images/";
+
 			FileHandler.saveFile(uploadDir, fileName, file);
 		}
 
-		category.setAlias(SlugHandler.toSlug(category.getName()));
-		
-		categoryService.save(category);
-		
-		model.addAttribute("message", "Lưu phân loại thành công");
-		
+		supplier.setAlias(SlugHandler.toSlug(supplier.getName()));
+
+		supplierService.save(supplier);
+
+		model.addAttribute("message", "Lưu nhà cung cấp thành công");
+
 		return list(page, keyword, model);
 	}
 
 	@PostMapping("/update")
 	@Transactional(rollbackOn = { IOException.class, PersistenceException.class })
 	public RedirectView updateCategory(@RequestParam(name = "currentPage", defaultValue = "0") int page,
-			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, @Valid Category category,
+			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, @Valid Supplier supplier,
 			@RequestParam("categoryImage") MultipartFile file) throws IOException {
 
 		if (!file.isEmpty()) {
 //			remove old image
-			String dirCategory = "../category-images/" + category.getImage();
-			FileHandler.removeDir(dirCategory);
+			String oldImg = "../supplier-images/" + supplier.getImage();
+			FileHandler.removeDir(oldImg);
 //			Upload new image
-			String formatFileName = SlugHandler.toSlug(category.getName())
+			String formatFileName = SlugHandler.toSlug(supplier.getName())
 					+ String.format("%04d", new Random().nextInt(10000)) + "."
 					+ file.getOriginalFilename().split("\\.")[1];
 			;
 			String fileName = StringUtils.cleanPath(formatFileName);
 			String uploadDir = "../category-images/";
 			FileHandler.saveFile(uploadDir, fileName, file);
-			category.setImage(fileName);
+			supplier.setImage(fileName);
 		}
 
-		category.setAlias(SlugHandler.toSlug(category.getName()));
-		categoryService.save(category);
-		model.addAttribute("message", "Lưu phân loại thành công");
+		supplier.setAlias(SlugHandler.toSlug(supplier.getName()));
+		supplierService.save(supplier);
+		model.addAttribute("message", "Lưu nhà cung cấp thành công");
 		return new RedirectView("/manage/category?page=" + page + "&key=" + keyword);
 	}
 
 	@GetMapping("/{id}")
-	public @ResponseBody Category showDetail(@PathVariable("id") Long id) {
-		return categoryService.findById(id);
+	public @ResponseBody Supplier showDetail(@PathVariable("id") Long id) {
+		return supplierService.findById(id);
 	}
 
 	@GetMapping("/delete/{id}")
 	public RedirectView delete(@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "key", defaultValue = "") String keyword, @PathVariable Long id, Model model) {
-		Category category = categoryService.findById(id);
-		if (category.getImage() != null) {
-			String dirCategory = "../category-images/" + category.getImage();
-			FileHandler.removeDir(dirCategory);
+		Supplier supplier = supplierService.findById(id);
+		if (supplier.getImage() != null) {
+			String dirsupplier = "../supplier-images/" + supplier.getImage();
+			FileHandler.removeDir(dirsupplier);
 		}
 
-		String message = categoryService.delete(id);
+		String message = supplierService.delete(id);
 		if (!message.isEmpty())
 			model.addAttribute("message", message);
-		return new RedirectView("/manage/category?page=" + page + "&key=" + keyword);
+		return new RedirectView("/manage/supplier?page=" + page + "&key=" + keyword);
 	}
 }

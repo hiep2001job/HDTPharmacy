@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -60,13 +61,83 @@ public class ProductController {
 
 	@PostMapping
 	@Transactional(rollbackOn = { IOException.class, PersistenceException.class })
-	public String storeCategory(@RequestParam(name = "currentPage", defaultValue = "0") int page,
-			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, Product product
-			,@RequestParam("primaryImage") MultipartFile primaryImage
-			,@RequestParam("imageFile1") MultipartFile image1
-			,@RequestParam("imageFile2") MultipartFile image2
-			,@RequestParam("imageFile3") MultipartFile image3
-			,@RequestParam("imageFile4") MultipartFile image4) throws IOException {
+	public String store(@RequestParam(name = "currentPage", defaultValue = "0") int page,
+			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, Product product,
+			@RequestParam("primaryImage") MultipartFile primaryImage, @RequestParam("imageFile1") MultipartFile image1,
+			@RequestParam("imageFile2") MultipartFile image2, @RequestParam("imageFile3") MultipartFile image3,
+			@RequestParam("imageFile4") MultipartFile image4) throws IOException {
+
+		if (!primaryImage.isEmpty()) {
+			String formatFileName = SlugHandler.toSlug(product.getName())
+					+ String.format("%04d", new Random().nextInt(10000)) + "."
+					+ primaryImage.getOriginalFilename().split("\\.")[1];
+			String fileName = StringUtils.cleanPath(formatFileName);
+			product.setImagePrimary(fileName);
+
+			String uploadDir = "../product-images/";
+
+			FileHandler.saveFile(uploadDir, fileName, primaryImage);
+		}
+		if (!image1.isEmpty()) {
+			String formatFileName = SlugHandler.toSlug(product.getName())
+					+ String.format("%04d", new Random().nextInt(10000)) + "."
+					+ image1.getOriginalFilename().split("\\.")[1];
+			String fileName = StringUtils.cleanPath(formatFileName);
+			product.setImage1(fileName);
+
+			String uploadDir = "../product-images/";
+
+			FileHandler.saveFile(uploadDir, fileName, image1);
+		}
+		if (!image2.isEmpty()) {
+			String formatFileName = SlugHandler.toSlug(product.getName())
+					+ String.format("%04d", new Random().nextInt(10000)) + "."
+					+ image2.getOriginalFilename().split("\\.")[1];
+			String fileName = StringUtils.cleanPath(formatFileName);
+			product.setImage2(fileName);
+
+			String uploadDir = "../product-images/";
+
+			FileHandler.saveFile(uploadDir, fileName, image2);
+		}
+		if (!image3.isEmpty()) {
+			String formatFileName = SlugHandler.toSlug(product.getName())
+					+ String.format("%04d", new Random().nextInt(10000)) + "."
+					+ image3.getOriginalFilename().split("\\.")[1];
+			String fileName = StringUtils.cleanPath(formatFileName);
+			product.setImage3(fileName);
+
+			String uploadDir = "../product-images/";
+
+			FileHandler.saveFile(uploadDir, fileName, image3);
+		}
+		if (!image4.isEmpty()) {
+			String formatFileName = SlugHandler.toSlug(product.getName())
+					+ String.format("%04d", new Random().nextInt(10000)) + "."
+					+ image4.getOriginalFilename().split("\\.")[1];
+			String fileName = StringUtils.cleanPath(formatFileName);
+			product.setImage4(fileName);
+
+			String uploadDir = "../product-images/";
+
+			FileHandler.saveFile(uploadDir, fileName, image4);
+		}
+		if (product.getIsDrug() == null)
+			product.setIsDrug(false);
+		product.setAlias(SlugHandler.toSlug(product.getName()) + String.format("%04d", new Random().nextInt(10000)));
+		productService.save(product);
+		model.addAttribute("message", "Lưu phân loại thành công");
+
+		return list(page, keyword, model);
+	}
+
+	@PostMapping("/update")
+	@Transactional(rollbackOn = { IOException.class, PersistenceException.class })
+	public String update(@RequestParam(name = "currentPage", defaultValue = "0") int page,
+			@RequestParam(name = "key", defaultValue = "") String keyword, Model model, Product product,
+			@RequestParam("primaryImage") MultipartFile primaryImage, @RequestParam("imageFile1") MultipartFile image1,
+			@RequestParam("imageFile2") MultipartFile image2, @RequestParam("imageFile3") MultipartFile image3,
+			@RequestParam("imageFile4") MultipartFile image4) throws IOException {
 
 		if (!primaryImage.isEmpty()) {
 			String formatFileName = SlugHandler.toSlug(product.getName())
@@ -124,27 +195,30 @@ public class ProductController {
 			FileHandler.saveFile(uploadDir, fileName, image4);
 		}
 
-		product.setAlias(SlugHandler.toSlug(product.getName())+String.format("%04d", new Random().nextInt(10000)));
+		product.setAlias(SlugHandler.toSlug(product.getName()) + String.format("%04d", new Random().nextInt(10000)));
 		productService.save(product);
 		model.addAttribute("message", "Lưu phân loại thành công");
 
 		return list(page, keyword, model);
 	}
-	
+
+	@GetMapping("/{id}")
+	public @ResponseBody Product showDetail(@PathVariable("id") Long id) {
+		return productService.findById(id);
+	}
+
 	@GetMapping("/delete/{id}")
 	public RedirectView delete(@RequestParam(name = "page", defaultValue = "0") int page,
 			@RequestParam(name = "key", defaultValue = "") String keyword, @PathVariable Long id, Model model) {
 		Product product = productService.findById(id);
-		List<String> imgPathList=product.getPhotoPathList();
+		List<String> imgPathList = product.getPhotoPathList();
 		if (!imgPathList.isEmpty()) {
-			for(String path:imgPathList)
-			String dirCategory = "../category-images/" + category.getImage();
-			FileHandler.removeDir(dirCategory);
+			for (String path : imgPathList) {
+				FileHandler.removeDir(".." + path);
+			}
 		}
+		productService.delete(id);
 
-		String message = categoryService.delete(id);
-		if (!message.isEmpty())
-			model.addAttribute("message", message);
-		return new RedirectView("/manage/category?page=" + page + "&key=" + keyword);
+		return new RedirectView("/manage/product?page=" + page + "&key=" + keyword);
 	}
 }

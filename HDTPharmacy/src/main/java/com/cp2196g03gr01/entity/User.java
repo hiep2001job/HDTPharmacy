@@ -1,9 +1,11 @@
 package com.cp2196g03gr01.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,7 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 
 import lombok.Data;
-
 
 @Entity
 @Data
@@ -23,12 +24,24 @@ public class User {
 	private Long id;
 
 	@Column(name = "user_username", length = 100)
-	private String username;
+	private String userFullname;
 
 	@Column(name = "user_password", length = 300)
 	private String password;
 
-	@ManyToMany
+	@Column(name = "user_email", length = 100)
+	private String email;
+
+	@Column(name = "user_phone", length = 20)
+	private String phone;
+	
+	@Column(name = "user_reset_password_token", length = 30)
+	private String resetPasswordToken;
+	
+	@Column(name = "user_enable")
+	private Boolean isEnable;
+
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-	Set<Role> playingRoles;
+	Set<Role> roles = new HashSet<Role>();
 }

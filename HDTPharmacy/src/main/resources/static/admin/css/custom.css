@@ -16,6 +16,7 @@
 .input-image-orthers{
 	margin-top: 1rem;
 	display: flex;
+	justify-content: center;
 	
 }
 
@@ -46,4 +47,14 @@
 	border-radius: 10px;
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: #D62929;
+}
+
+/* Modal two column scroll independently */
+div#col-left, div#col-right {
+    max-height: 70vh;          /* not available in Bootstrap */
+    overflow-y: scroll;
+}
+/* Product row view */
+.view-detail:hover{
+	cursor: pointer;
 }

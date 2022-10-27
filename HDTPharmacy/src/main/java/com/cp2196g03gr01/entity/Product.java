@@ -49,7 +49,7 @@ public class Product {
 	private Integer rewardPoint;
 
 	@Column(name = "product_packing", length = 100)
-	private String packing;
+	private String packgaging;
 
 	@Column(name = "product_img_primary")
 	private String imagePrimary;
@@ -143,7 +143,7 @@ public class Product {
 	public String toString() {
 		return "Product [id=" + id + ", name=" + name + ", barcode=" + barcode + ", stock=" + stock + ", position="
 				+ position + ", salePrice=" + salePrice + ", weight=" + weight + ", rewardPoint=" + rewardPoint
-				+ ", packing=" + packing + ", imagePrimary=" + imagePrimary + ", image1=" + image1 + ", image2="
+				+ ", packing=" + packgaging + ", imagePrimary=" + imagePrimary + ", image1=" + image1 + ", image2="
 				+ image2 + ", image3=" + image3 + ", image4=" + image4 + ", isDrug=" + isDrug + ", drugId=" + drugId
 				+ ", initialName=" + initialName + ", drugGroup=" + drugGroup + ", absorbingWay=" + absorbingWay
 				+ ", regisNumber=" + regisNumber + ", drugGeneric=" + drugGeneric + ", concentration=" + concentration

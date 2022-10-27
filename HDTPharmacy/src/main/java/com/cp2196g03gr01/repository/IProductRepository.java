@@ -13,10 +13,7 @@ import com.cp2196g03gr01.entity.Category;
 import com.cp2196g03gr01.entity.Product;
 
 public interface IProductRepository  extends JpaRepository<Product, Long>{
-
-
-	Optional<Product> findById(Long id);	
-	
+	Optional<Product> findById(Long id);		
 	
 	@Query(value = "SELECT pro.* FROM product pro WHERE MATCH (pro.product_name) AGAINST (:name IN BOOLEAN MODE)", nativeQuery = true)
     public Page<Product> findFullTextSearchByName(@Param("name") String name,Pageable pageable);

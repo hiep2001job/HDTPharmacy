@@ -1,6 +1,8 @@
 package com.cp2196g03gr01.entity;
 
 
+import java.beans.Transient;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,4 +32,12 @@ public class Supplier {
 	
 	@Column(name="supplier_address", length=100, nullable=false)
     private String address;
+	
+	@Column(name="supplier_image")
+    private String image;
+	  @Transient
+		public String getPhotoPath() {
+			return "/supplier-images/" + this.image;
+		}
+
 }

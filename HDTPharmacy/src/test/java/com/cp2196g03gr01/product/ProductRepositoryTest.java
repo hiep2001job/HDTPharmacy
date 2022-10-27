@@ -58,5 +58,12 @@ public class ProductRepositoryTest {
 		System.out.println(res.getContent().size());
 
 	}
+	@Test
+	public void testProductInformation() {
+
+		System.out.println(productRepository.findById(12L).get().toString());
+	}
+	
+	
 
 }
