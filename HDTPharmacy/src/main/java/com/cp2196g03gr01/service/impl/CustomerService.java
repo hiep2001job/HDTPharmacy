@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cp2196g03gr01.entity.Customer;
+import com.cp2196g03gr01.projection.ICustomerProjection;
 import com.cp2196g03gr01.repository.ICustomerRepository;
 import com.cp2196g03gr01.service.ICustomerService;
 
@@ -66,5 +67,10 @@ public class CustomerService implements ICustomerService {
 //		}
 		return message;
 
+	}
+
+	@Override
+	public Page<ICustomerProjection> searchCustomer(String term, Pageable pageable) {
+		return customerRepository.searchCustomers(term, pageable);
 	}
 }

@@ -27,6 +27,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.cp2196g03gr01.security.AuthService;
 
+import groovyjarjarantlr4.v4.runtime.atn.SemanticContext.AND;
+
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -55,8 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/manage/employee", "/manage/category", "/manage/product")
-				.hasAuthority("MANAGER").anyRequest().authenticated()
+		http.authorizeRequests()
+				.antMatchers("/manage/employee","/manage/all-retail", "/manage/category", "/manage/product").hasAuthority("MANAGER")
+				.antMatchers("/retail/**").hasAnyAuthority("MANAGER","EMPLOYEE")
+				
+				.anyRequest().permitAll()
 
 				.and().formLogin().loginPage("/login/employee").usernameParameter("email").permitAll()
 				.defaultSuccessUrl("/").failureUrl("/login/employee")
@@ -64,11 +69,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().exceptionHandling().accessDeniedPage("/access-denied")
 
 				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/login/employee").deleteCookies("JSESSIONID")
-				.invalidateHttpSession(true) 
+				.logoutSuccessUrl("/login/employee").deleteCookies("JSESSIONID").invalidateHttpSession(true)
 
 				.and().logout().permitAll().and().rememberMe().key("EiRoqkIE1pnQmWEPKjG8_1123003381")
 				.tokenValiditySeconds(7 * 24 * 60 * 60);
+
 	}
 
 	@Override

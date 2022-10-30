@@ -18,6 +18,7 @@ import com.cp2196g03gr01.service.ICategoryService;
 
 @Service
 public class CategoryService implements ICategoryService {
+	
 	@Autowired
 	private ICategoryRepository categoryRepository;
 

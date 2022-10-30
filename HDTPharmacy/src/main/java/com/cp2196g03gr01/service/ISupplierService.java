@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 
 import com.cp2196g03gr01.entity.Supplier;
+import com.cp2196g03gr01.projection.ICustomerProjection;
 
 public interface ISupplierService {
 	void createSupplier(Supplier supplier);
@@ -21,4 +22,5 @@ public interface ISupplierService {
 
 	String delete(Long id);
 
+	
 }

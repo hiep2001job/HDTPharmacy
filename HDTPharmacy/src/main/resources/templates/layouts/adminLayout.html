@@ -20,6 +20,13 @@
 <!-- Core css -->
 <link th:href="@{/admin/css/app.min.css}" rel="stylesheet">
 
+<!-- Awesome css -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
 <!-- Custom css -->
 <link th:href="@{/admin/css/custom.css}" rel="stylesheet">
 </head>
@@ -30,9 +37,9 @@
 			<!-- Header START -->
 			<div class="header">
 				<div class="logo logo-dark">
-					<a href="index.html"> <img src="assets/images/logo/logo.png"
+					<a href="index.html"> <img class="h-90" th:src="@{/LogoWeb_Green.svg}"
 						alt="Logo"> <img class="logo-fold"
-						src="@{/admin/images/logo/logo-fold.png}" alt="Logo">
+						th:src="@{/LogoWeb_Green.svg}" alt="Logo">
 					</a>
 				</div>
 				<div class="logo logo-white">
@@ -58,6 +65,14 @@
 						</li> -->
 					</ul>
 					<ul class="nav-right">
+						<li>
+							<div>
+								<a class="btn btn-success" th:href="@{/retail/}"> <i
+									class="fa-solid fa-cart-shopping mr-2"></i><span>Bán
+										hàng</span>
+								</a>
+							</div>
+						</li>
 						<li class="dropdown dropdown-animated scale-left"><a
 							href="javascript:void(0);" data-toggle="dropdown"> <i
 								class="anticon anticon-bell notification-badge"></i>
@@ -225,6 +240,18 @@
 								<li><a th:href="@{/manage/supplier}">Nhà cung cấp</a></li>
 								<li><a th:href="@{/manage/employee}">Nhân viên</a></li>
 							</ul></li>
+						<li class="nav-item dropdown"><a class="dropdown-toggle"
+							href="javascript:void(0);"> <span class="icon-holder">
+									<i class="anticon anticon-appstore"></i>
+							</span> <span class="title">Đơn hàng</span> <span class="arrow">
+									<i class="arrow-icon"></i>
+							</span>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/manage/all-retail}">Đơn bán lẻ</a></li>
+								<li><a th:href="@{/manage/retail}">Đơn bán lẻ của tôi</a></li>
+
+							</ul></li>
 
 					</ul>
 				</div>
@@ -266,6 +293,11 @@
 
 	<!-- Custom JS -->
 	<script th:src="@{/admin/js/custom.js}"></script>
+	<!-- Font awesome js -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
+		integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<!-- Chat Tawk -->
 	<!--Start of Tawk.to Script-->

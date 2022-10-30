@@ -73,6 +73,10 @@ public class HDTUserDetail  implements UserDetails{
 	public String getFullname() {
 		return user.getUserFullname();
 	} 
+	
+	public Long getId() {
+		return user.getId();
+	} 
 //	public String getAvatar() {
 //		return user.getImage();
 //	} 

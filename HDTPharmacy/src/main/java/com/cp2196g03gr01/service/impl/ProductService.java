@@ -10,8 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
+import com.cp2196g03gr01.dto.ProductDTO;
 import com.cp2196g03gr01.entity.Product;
+import com.cp2196g03gr01.projection.IProductProjection;
 import com.cp2196g03gr01.repository.IProductRepository;
 import com.cp2196g03gr01.service.IProductService;
 
@@ -27,6 +28,8 @@ public class ProductService implements IProductService{
 			return productRepository.findAll(pageable);
 		return productRepository.findFullTextSearchByName(keyword,pageable);
 	}
+	
+	
 
 	@Override
 	public Product findById(Long id) {
@@ -44,6 +47,15 @@ public class ProductService implements IProductService{
 	@Override
 	public void delete(Long id) {
 		productRepository.deleteById(id);;
+	}
+
+
+
+	@Override
+	public Page<IProductProjection> findSuggestProuduct(String keyword, Pageable pageable) {
+		if(keyword.trim().isEmpty())
+			return null;
+		return productRepository.findFulltextForSuggestion(keyword,pageable);
 	}
 	
 	

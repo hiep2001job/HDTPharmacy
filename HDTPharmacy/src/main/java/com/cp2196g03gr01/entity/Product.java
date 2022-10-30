@@ -1,6 +1,7 @@
 package com.cp2196g03gr01.entity;
 
 import java.beans.Transient;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,15 +14,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
+
+import com.cp2196g03gr01.dto.ProductDTO;
 
 import lombok.Data;
 
 @Entity
 @Data
 @Table(indexes = {@Index(name = "fulltextIndex",columnList = "product_name")})
-public class Product {
+public class Product implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

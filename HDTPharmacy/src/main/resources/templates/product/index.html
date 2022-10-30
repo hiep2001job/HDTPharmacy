@@ -71,18 +71,18 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="item : ${productList}" th:attr="data-id=${item.id}"
-								class="view-detail">
-								<td><img th:if="${item.imagePrimary!=null}" width="100"
+							<tr th:each="item : ${productList}">
+								<td th:attr="data-id=${item.id}" class="view-detail"><img
+									th:if="${item.imagePrimary!=null}" width="100"
 									th:src="@{${item.getPrimaryPhotoPath()}}" />&nbsp;&nbsp;
 									[[${item.name}]]</td>
 								<td>[[${item.salePrice}]]</td>
 								<td class=""><a
-									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit">
+									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit ">
 										<i class="anticon anticon-edit"></i>
 								</a> <a th:attr="data-label=${item.name}" th:value="${item.id}"
 									data-toggle="modal" data-target="#confirm-delete"
-									class="btn btn-icon btn-hover btn-sm btn-rounded"> <i
+									class="btn btn-icon btn-hover btn-sm btn-rounded delete"> <i
 										class="anticon anticon-delete"></i>
 								</a> <input id="id" th:value="${item.id}" hidden /></td>
 							</tr>
@@ -297,58 +297,193 @@
 			</div>
 		</div>
 		<!--Update Category Modal -->
-		<div class="modal fade" id="updateCategoryModal">
-			<div class="modal-dialog modal-dialog-centered">
+		<div class="modal fade" id="updateProductModal">
+			<div class="modal-dialog modal-dialog-centered modal-xl">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Chá»nh
-							sá»­a phÃ¢n loáº¡i</h5>
+						<h5 class="modal-title" id="exampleModalCenterTitle">Chỉnh
+							sửa sản phẩm</h5>
 						<button type="button" class="close" data-dismiss="modal">
 							<i class="anticon anticon-close"></i>
 						</button>
 					</div>
 					<div class="modal-body">
-						<form id="updateCategory" th:method="POST"
-							enctype="multipart/form-data"
-							th:action="@{/manage/category/update}">
-							<input type='hidden' name="id" id="id" /> <input hidden
-								name="currentPage" th:value="${currentPage}" />
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">TÃªn
-									phÃ¢n loáº¡i:</label> <input type="text" class="form-control"
-									id="categoryName" name="name" placeholder="Phân loại">
-							</div>
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">HÃ¬nh
-									Äáº¡i diá»n:</label> <img
-									th:src="@{/admin/images/others/adobe-thumb.png}" width="150"
-									id="previewUpdate" class="img-thumbnail"> <input
-									type="file" hidden accept="image/*" id="updateImg"
-									name="categoryImage" /> <input hidden id="oldImage"
-									name="image" />
-							</div>
-							<div class="form-group">
-								<label class="font-weight-semibold" for="parent">PhÃ¢n
-									loáº¡i cha:</label> <select class="filter-select" name="parentCategory"
-									id="parent">
-									<option value="">-- Chá»n phÃ¢n loáº¡i cha --</option>
-									<th:block th:each="cat : ${parents}">
-										<option th:value="${cat.id}">[[${cat.name}]]</option>
-									</th:block>
 
-								</select>
+						<form id="updateProduct" th:method="post"
+							enctype="multipart/form-data" th:action="@{/manage/product}">
+							<input hidden name="id" />
+							<div class="row">
+								<div id="col-left" class="col-6">
+									<input hidden name="currentPage" th:value="${currentPage}" />
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Tên sản
+											phẩm: </label> <input type="text" name="name"
+											class="form-control image-input" id="name"
+											placeholder="Sản phẩm">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Giá
+											bán: </label> <input type="number" name="salePrice"
+											class="form-control" id="salePrice" placeholder="Giá bán">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="categoryName">Ảnh
+											sản phẩm:</label>
+										<div class="input-image-primary text-center">
+											<img th:src="@{/admin/images/others/adobe-thumb.png}"
+												width="200" id="imgPrimary" class="img-thumbnail">
+											<input type="file" hidden accept="image/*" id="imagePrimary"
+												name="primaryImage" class="image-input" />
+										</div>
+										<div class="input-image-orthers">
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="image1" name="imageFile1" class="image-input" />
+											</div>
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="image2" name="imageFile2" class="image-input" />
+											</div>
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="image3" name="imageFile3" class="image-input" />
+											</div>
+											<div class="input-image text-center">
+												<img th:src="@{/admin/images/others/adobe-thumb.png}"
+													width="120" id="previewCreatePrimary" class="img-thumbnail">
+												<input type="file" hidden accept="image/*"
+													id="image4" name="imageFile4" class="image-input" />
+											</div>
+										</div>
+									</div>
+
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="category">Thuộc
+											phân loại:</label> <select class="filter-select" id="category"
+											name="category">
+											<option value="">-- Chọn phân loại --</option>
+											<th:block th:each="cat : ${categoryList}">
+												<option th:value="${cat.id}">[[${cat.name}]]</option>
+											</th:block>
+
+										</select>
+
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Quy
+											cách đóng gói: </label> <input type="text" name="packgaging"
+											class="form-control" id="packgaging"
+											placeholder="Quy cách đóng gói: ">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Khối
+											lượng: </label> <input type="text" name="weight"
+											class="form-control image-input" id="weight"
+											placeholder="Khối lượng">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Điểm
+											tích lũy: </label> <input type="text" name="weight"
+											class="form-control image-input" id="weight"
+											placeholder="Điểm tích lũy">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Vị trí
+											kệ: </label> <input type="text" name="position"
+											class="form-control image-input" id="position"
+											placeholder="Vị trí kệ">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Tồn
+											kho: </label> <input type="text" name="stock"
+											class="form-control image-input" id="stock"
+											placeholder="Tồn kho">
+									</div>
+								</div>
+
+								<div id="col-right" class="col-6">
+									<div class="form-group d-flex align-items-center col-md-6 ">
+										<label class="font-weight-semibold mr-2">Sản phẩm là
+											thuốc: </label>
+										<div class="switch m-r-10">
+											<input type="checkbox" id="uIsDrug" name="isDrug"> <label
+												for="uIsDrug"></label>
+										</div>
+
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Mã
+											thuốc: </label> <input type="text" name="drugId" class="form-control"
+											id="drugId" placeholder="Mã thuốc">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Nhóm
+											thuốc: </label> <input type="text" name="drugGroup"
+											class="form-control" id="drugGroup" placeholder="Nhóm thuốc">
+									</div>
+
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Hoạt
+											chất: </label> <input type="text" name="initialName"
+											class="form-control" id="initialName" placeholder="Hoạt chất">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Hàm
+											lượng: </label> <input type="text" name="concentration"
+											class="form-control" id="concentration" placeholder="Hàm lượng">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Cách
+											dùng: </label> <input type="text" name="absorbingWay"
+											class="form-control" id="absorbingWay" placeholder="Cách dùng">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Số đăng
+											ký: </label> <input type="text" name="regisNumber"
+											class="form-control" id="regisNumber" placeholder="Số đăng ký">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Gốc
+											thuốc: </label> <input type="text" name="drugGeneric"
+											class="form-control" id="drugGeneric" placeholder="Gốc thuốc">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Nhà sản
+											xuất: </label> <input type="text" name="manufacturer"
+											class="form-control" id="manufacturer" placeholder="Nhà sản xuất">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Dược
+											chất: </label> <input type="text" name="medicineSubstance"
+											class="form-control" id="medicineSubstance" placeholder="Dược chất">
+									</div>
+									<div class="form-group col-md-12">
+										<label class="font-weight-semibold" for="name">Dược
+											liệu: </label> <input type="text" name="medicinalHerbs"
+											class="form-control" id="medicinalHerbs" placeholder="Dược liệu">
+									</div>
+									<div class="form-group d-flex align-items-center col-md-6 ">
+										<label class="font-weight-semibold mr-2   ">Hiển thị
+											online: </label>
+										<div class="switch m-r-10">
+											<input type="checkbox" id="isOnlineSale" name="isOnlineSale">
+											<label for="isOnlineSale"></label>
+										</div>
+
+									</div>
+								</div>
 							</div>
 
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Level:</label>
-								<select class="custom-select" id="level" name="level">
 
-									<option
-										th:each="level : ${T(com.cp2196g03gr01.common.CategoryLevelEnum).values()}"
-										th:value="${level}">[[${level.getValue()}]]</option>
-								</select>
-							</div>
+
 						</form>
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
@@ -580,33 +715,39 @@
 			$("table .edit").on(
 					"click",
 					function() {
-						var id = $(this).parent().find("#id").val();
+						var id = $(this).parent().find("#id").val(); 
+						
 						$.ajax({
 							type : 'GET',
-							url : "[[@{/manage/category/}]]" + id,
+							url : "[[@{/manage/product/}]]" + id,
 							success : function(data) {
-								$("#viewProductModal #id").val(data.id);
-								$("#viewProductModal #name").val(
-										data.name);
-								/* if (data.parentCategory != null) {
-									$("#viewProductModal #parent").val(
-											data.parentCategory.id).change();
-								}
-								if(data.image!=null){
-									$("#viewProductModal #previewUpdate")
-									.attr('src','[[@{/category-images/}]]'+data.image);
-									$("#viewProductModal #oldImage").val(data.image);
-								}else{
-									$("#viewProductModal #previewUpdate")
-									.attr('src','[[@{/admin/images/others/adobe-thumb.png}]]');
-								}
-
-								$("#updateCategoryModal #level")
-										.val(data.level).change(); */
-								$("#viewProductModal").modal('show');
+								
+								$("#updateProductModal #name").val(data.name);
+								$("#updateProductModal #salePrice").val(data.salePrice);
+								$("#updateProductModal #category").val(data.category.name);
+								
+								if(data.imagePrimary)
+									$("#viewProductModal #imagePrimary").attr('src',"[[@{/product-images/}]]"+data.imagePrimary);
+								if(data.image1)
+									$("#updateProductModal #image1").attr('src',"[[@{/product-images/}]]"+data.image1);
+								if(data.image2)
+									$("#updateProductModal #image2").attr('src',"[[@{/product-images/}]]"+data.image2);
+								if(data.image3)
+									$("#updateProductModal #image3").attr('src',"[[@{/product-images/}]]"+data.image3);
+								if(data.image4)
+									$("#updateProductModal #image4").attr('src',"[[@{/product-images/}]]"+data.image4);
+								$("#updateProductModal #stock").val(data.stock);
+								$("#updateProductModal #position").val(data.position);
+								$("#updateProductModal #rewardPoint").val(data.rewardPoint);
+								$("#updateProductModal #packgaging").val(data.packgaging);
+								$("#updateProductModal #weight").val(data.weight+' g');
+								$("#updateProductModal #salePrice").val(data.salePrice);
+								
+								
+								$("#updateProductModal").modal('show');
 							}
-						});
 					});
+				});
 			/* View product detail  */
 			$('.view-detail').on('click', function () {
 				var id=$(this).data('id');
@@ -636,26 +777,11 @@
 						$("#viewProductModal #weight").text(data.weight+' g');
 						$("#viewProductModal #salePrice").text(data.salePrice);
 						
-						/* if (data.parentCategory != null) {
-							$("#viewProductModal #parent").val(
-									data.parentCategory.id).change();
-						}
-						if(data.image!=null){
-							$("#viewProductModal #previewUpdate")
-							.attr('src','[[@{/category-images/}]]'+data.image);
-							$("#viewProductModal #oldImage").val(data.image);
-						}else{
-							$("#viewProductModal #previewUpdate")
-							.attr('src','[[@{/admin/images/others/adobe-thumb.png}]]');
-						}
-
-						$("#updateCategoryModal #level")
-								.val(data.level).change(); */
 						$("#viewProductModal").modal('show');
 					}
 				});
 				
-			})
+			});
 			
 			/* Delete confirmation script */
 			$('#confirm-delete').on(
@@ -675,11 +801,11 @@
 			/* Image Input*/
 			$('.img-thumbnail').on('click',function(){
 				$(this).siblings("input[type='file']").trigger('click');
-			})
+			});
 			$('.image-input').on('change',function(){
 				 const [file]=$(this)[0].files;				
 				 $(this).siblings(".img-thumbnail").attr('src',URL.createObjectURL(file)); 
-			})	
+			});
 		</script>
 	</th:block>
 </body>

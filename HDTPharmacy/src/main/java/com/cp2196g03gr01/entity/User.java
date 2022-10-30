@@ -11,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.JoinColumn;
 
 import lombok.Data;
@@ -26,6 +29,7 @@ public class User {
 	@Column(name = "user_username", length = 100)
 	private String userFullname;
 
+	@JsonIgnore
 	@Column(name = "user_password", length = 300)
 	private String password;
 
@@ -35,6 +39,7 @@ public class User {
 	@Column(name = "user_phone", length = 20)
 	private String phone;
 	
+	@JsonIgnore
 	@Column(name = "user_reset_password_token", length = 30)
 	private String resetPasswordToken;
 	

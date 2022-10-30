@@ -1,6 +1,7 @@
 package com.cp2196g03gr01.authentication;
 
 import java.util.HashSet;
+import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class UserRepositoryTest {
 		
 		Role managerRole=iRoleRepository.findById(1L).get();		
 		User user =new User();
-		user.setEmail("employee@gmail.com");
+		user.setEmail("thanhhiep77777@gmail.com");
 		user.setIsEnable(true);
 		user.setUserFullname("John Handson");
 		user.setPhone("0362550694");		
@@ -67,6 +68,10 @@ public class UserRepositoryTest {
 	public void testToken() {
 		BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
 		System.out.println(bCryptPasswordEncoder.encode("hehe"));
+	}
+	@Test
+	public void testOtp() {
+		System.out.println(String.format("%06d", new Random().nextInt(1000000)));
 	}
 	
 }
