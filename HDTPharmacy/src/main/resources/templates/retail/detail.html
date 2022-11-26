@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="layouts/adminLayout.html"
+	lang="vi">
+<head>
+<meta charset="ISO-8859-1">
+<title layout:fragment="title">Quản lý phân loại</title>
+
+<!-- Page style -->
+<th:block layout:fragment="pageStyle">
+	<link
+		th:href="@{/admin/vendors/datatables/dataTables.bootstrap.min.css}"
+		rel="stylesheet" />
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+	<!-- page css -->
+	<link th:href="@{/admin/vendors/select2/select2.css}" rel="stylesheet">
+</th:block>
+
+</head>
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="page-header">
+			<h2 class="header-title">Quản lí bán lẻ</h2>
+			<div class="header-sub-title">
+				<nav class="breadcrumb breadcrumb-dash">
+					<a th:href="@{/manage/dashboard}" class="breadcrumb-item"> <i
+						class="anticon anticon-home m-r-5"></i>Bán lẻ
+					</a> <a class="breadcrumb-item" href="#">Chi tiết hóa đơn</a>
+				</nav>
+			</div>
+		</div>
+		<div class="container">
+			<div class="card">
+				<div class="card-body">
+					<div id="invoice" class="p-h-30">
+						<div class="m-t-15 lh-2">
+							<div class="inline-block">
+								<img class="img-fluid" src="assets/images/logo/logo.png" alt="">
+								<address class="p-l-10">
+									<span class="font-weight-semibold text-dark">HDT Pharmacy</span><br> 
+									<span>01 Lý Tự Trọng</span><br> <span>Xuân Khánh, Ninh Kiều, Cần Thơ</span><br> Điện thoại: <span>(123) 456-7890</span>
+								</address>
+							</div>
+							<div class="float-right">
+								<h2>Hóa đơn bán lẻ</h2>
+							</div>
+						</div>
+						<div class="row m-t-20 lh-2">
+							<div class="col-sm-9">
+								<h3 class="p-l-10 m-t-10">Nhân viên tạo:</h3>
+								<address class="p-l-10 m-t-10">
+									<span class="font-weight-semibold text-dark">[[${invoice.user.userFullname}]]</span><br> 
+								</address>
+							</div>
+							<div class="col-sm-3">
+								<div class="m-t-80">
+									<div class="text-dark text-uppercase d-inline-block">
+										<span class="font-weight-semibold text-dark">Hóa đơn số
+											:</span>
+									</div>
+									<div class="float-right">#[[${#numbers.formatInteger(invoice.id,6)}]]</div>
+								</div>
+								<div class="text-dark text-uppercase d-inline-block">
+									<span class="font-weight-semibold text-dark">Ngày tạo :</span>
+								</div>
+								<div class="float-right">[[${invoice.createAt}]]</div>
+							</div>
+						</div>
+						<div class="m-t-20">
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>No.</th>
+											<th>Sản phẩm</th>
+											<th>Số lượng</th>
+											<th>Đơn giá</th>
+											<th>Tổng</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="item,iter : ${invoice.items}">
+											<th>[[${iter.index+1}]]</th>
+											<td class="w-50">[[${item.product.name}]]</td>											
+											<td>[[${#numbers.formatDecimal(item.unitPrice, 0, 'WHITESPACE',0, 'POINT')}]] VND</td>
+											<td>[[${item.amount}]]</td>
+											<td>[[${#numbers.formatDecimal(item.total, 0, 'WHITESPACE',0, 'POINT')}]] VND</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+							<div class="row m-t-30 lh-1-8">
+								<div class="col-sm-12">
+									<div class="float-right text-right">
+										<!-- <p>Tổng : </p> -->
+										<!-- <p>vat (10%) : $232</p> -->
+										<hr>
+										<h3>
+											<span class="font-weight-semibold text-dark">Tổng :</span>
+											
+											[[${#numbers.formatDecimal(invoice.total, 0, 'WHITESPACE',0, 'POINT')}]] VND
+										</h3>
+									</div>
+								</div>
+							</div>							
+							<div class="row m-v-20">
+								<div class="col-sm-6">
+									<img class="img-fluid text-opacity m-t-5" width="100"
+										src="assets/images/logo/logo.png" alt="">
+								</div>
+								<div class="col-sm-6 text-right">
+									<small><span class="font-weight-semibold text-dark">Phone:</span>
+										(123) 456-7890</small> <br> <small>hdtpharmacysystem@gmail.com</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+				
+		
+
+	</div>
+
+	<!-- Page script -->
+	<th:block layout:fragment="pageScript">
+		<script th:src="@{/admin/vendors/datatables/jquery.dataTables.min.js}"></script>
+
+		<script
+			th:src="@{/admin/vendors/datatables/dataTables.bootstrap.min.js}"></script>
+
+		<script type="text/javascript"
+			th:src="@{/admin/vendors/jquery-validation/jquery.validate.min.js}"></script>
+
+
+		<!-- page js -->
+		<script th:src="@{/admin/vendors/select2/select2.min.js}"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+		
+		
+	</th:block>
+</body>
+</html>

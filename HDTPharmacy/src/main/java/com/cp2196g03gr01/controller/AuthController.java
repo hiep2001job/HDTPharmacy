@@ -12,10 +12,12 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class AuthController {
+	
 	@GetMapping("/login/employee")
 	public String showEmployeeLoginForm() {
 		return "auth/employeeLogin";
 	}
+	
 	@GetMapping("/access-denied")
 	public String loginError(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
@@ -30,6 +32,7 @@ public class AuthController {
         model.addAttribute("errorMessage", errorMessage);
         return "auth/page-403";
 	}
+	
 	@GetMapping("/logout")
 	public RedirectView logout(HttpServletRequest request, Model model) {
         return new RedirectView("/login/employee");

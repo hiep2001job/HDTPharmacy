@@ -34,17 +34,17 @@ public class UserRepositoryTest {
 		
 		Role managerRole=iRoleRepository.findById(2L).get();		
 		User user =new User();
-		user.setEmail("thanhhiep77777@gmail.com");
+		user.setEmail("nthiepa19050@cusc.ctu.edu.vn");
 		user.setIsEnable(true);
-		user.setUserFullname("Nguyễn Thành Hiệp");
-		user.setPhone("0362550694");		
+		user.setUserFullname("John Doe");
+		user.setPhone("0362550693");		
 		user.getRoles().add(managerRole);
 		user.setPassword(bCryptPasswordEncoder.encode("123456"));
 		
 		userRepository.save(user);
 	}
 	@Test
-	public void createUserE() {
+	public void createUserManager() {
 		BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
 
 		
@@ -52,7 +52,7 @@ public class UserRepositoryTest {
 		User user =new User();
 		user.setEmail("thanhhiep77777@gmail.com");
 		user.setIsEnable(true);
-		user.setUserFullname("John Handson");
+		user.setUserFullname("Nguyễn Thành Hiệp");
 		user.setPhone("0362550694");		
 		user.getRoles().add(managerRole);
 		user.setPassword(bCryptPasswordEncoder.encode("123456"));

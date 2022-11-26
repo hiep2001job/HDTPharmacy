@@ -89,4 +89,6 @@ public class CustomerController {
 			model.addAttribute("message", message);
 		return new RedirectView("/manage/customer?page=" + page + "&key=" + keyword);
 	}
+	
+	
 }

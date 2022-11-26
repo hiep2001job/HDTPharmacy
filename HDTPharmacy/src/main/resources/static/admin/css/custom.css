@@ -61,11 +61,27 @@ div#col-left, div#col-right {
 
 /* Retail css */
 .product-area {
-	height: 70vh;
+	height: 60vh;
 	overflow-y: scroll;
 }
 .product-table-header{
 
 	background-color: #fff;
 	
+}
+.suggest-item:hover,.ui-menu-item-wrapper:hover{
+	background-color:yellow; 
+	color: black !important;
+}
+.ui-state-active{
+	 background-color:yellow !important;
+	 border: 0px !important;
+}
+.ui-menu-item-wrapper{
+	background-color:white;
+}
+
+.ui-menu{
+	
+	z-index:1000 !important;
 }

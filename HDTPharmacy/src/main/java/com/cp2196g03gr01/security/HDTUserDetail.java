@@ -12,30 +12,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.cp2196g03gr01.entity.Role;
 import com.cp2196g03gr01.entity.User;
 
-
-public class HDTUserDetail  implements UserDetails{
+public class HDTUserDetail implements UserDetails {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	private User user;
-	
+
 	public HDTUserDetail(User user) {
 		this.user = user;
-		
+
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<Role> roles = user.getRoles();
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		
+
 		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
 		}
-		
+
 		return authorities;
 	}
 
@@ -68,16 +66,30 @@ public class HDTUserDetail  implements UserDetails{
 	public boolean isEnabled() {
 		return user.getIsEnable();
 	}
-	
-	
+
 	public String getFullname() {
 		return user.getUserFullname();
-	} 
-	
+	}
+
 	public Long getId() {
 		return user.getId();
-	} 
-//	public String getAvatar() {
-//		return user.getImage();
-//	} 
+	}
+
+	public String getRole() {
+		return user.getAllRole();
+	}
+
+	public String getAvatar() {
+		return user.getImage();
+	}
+	
+	public void refreshUserDetail(User updatedUser) {
+		user.setAddress(updatedUser.getEmail());
+		user.setPhone(updatedUser.getPhone());
+		user.setImage(updatedUser.getImage());
+		user.setUserFullname(updatedUser.getUserFullname());
+	}
+	
+	
+
 }

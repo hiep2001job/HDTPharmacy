@@ -61,6 +61,7 @@ public class UserForgotPasswordController {
 	}
 
 	public void sendEmail(String recipientEmail, String link) throws MessagingException, UnsupportedEncodingException {
+		
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 
@@ -100,7 +101,7 @@ public class UserForgotPasswordController {
 	    String password = request.getParameter("password");
 	     
 	    User user = userService.getByResetPasswordToken(token);
-	    model.addAttribute("title", "Reset your password");
+	    model.addAttribute("title", "Reset your password");    
 	     
 	    if (user == null) {
 	        model.addAttribute("message", "Invalid Token");

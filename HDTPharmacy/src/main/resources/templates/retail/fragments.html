@@ -8,9 +8,11 @@
 			<tr id="row_{ID}">
 				<td class="d-none"><input type="hidden" value="{ID}"
 					name="item_id[]" /></td>
-				<td class="pl-3">{NAME}</td>
+				<td class="pl-3">
+					<img width="80" src="{IMAGE}"/>{NAME}
+				</td>
 				<td class="pl-3">{PRICE}</td>
-				<td><input type="number" value="1" name="amount[]"
+				<td><input type="number" value="1" min="1" name="amount[]"
 					id="amount_{ID}" class="form-control w-50"
 					onchange="itemsHelper.calculateImport({ID}, {PRICE}, this.value);" /></td>
 				<td><span id="total_import_{ID}">0</span></td>
@@ -62,6 +64,7 @@
 					line = line.replace(/{ID}/g, ui.item.value);
 					line = line.replace(/{NAME}/g, ui.item.label);
 					line = line.replace(/{PRICE}/g, ui.item.price);
+					line = line.replace(/{IMAGE}/g, '/api/blob/product-images/'+ui.item.image);
 					
 					$("#loadItemProducts tbody").append(line);
 					itemsHelper.calculateImport(ui.item.value, ui.item.price, 1);
@@ -70,10 +73,10 @@
 					return false;
 				}
 			}).data('ui-autocomplete')._renderItem = function (ul, item) {
-                var path = "/product-images/"+ item.image;
+                var path = "/api/blob/product-images/"+ item.image;
 
-                return $('<li class="divSelection">')
-                   .append('<div>')
+                return $('<li class="suggest-item">')
+                   .append('<div >')
                    .append('<img  width="60" src="' + path + '" />')
                    .append('<span>')
                    .append(item.label)
@@ -122,18 +125,14 @@
 				calculateImport: function(id, price, amount){
 					$("#total_import_" + id).html(parseInt(price) * parseInt(amount));
 					this.calculateFinalTotal();
-				},
-				
-				hasProduct: function(id){
-					
-					var result = false;
-					
+				},				
+				hasProduct: function(id){					
+					var result = false;					
 					$('input[name="item_id[]"]').each(function(){
 						if(parseInt(id) == parseInt($(this).val())) {
 							result = true;
 						}
-					});
-					
+					});					
 					return result;
 				},
 				incrementAmount: function(id, price){
@@ -146,16 +145,11 @@
 					this.calculateFinalTotal();
 				},
 				calculateFinalTotal: function(){
-					var total = 0;
-					
+					var total = 0;					
 					$('span[id^="total_import_"]').each(function(){
-						
 						total += parseInt($(this).html());
-					
-					});
-					
+					});					
 					$('#final_total').html(total);
-					
 				}
 		}
 		

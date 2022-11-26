@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,6 +31,7 @@ import com.cp2196g03gr01.security.AuthService;
 import groovyjarjarantlr4.v4.runtime.atn.SemanticContext.AND;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
@@ -58,10 +60,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/manage/employee","/manage/all-retail", "/manage/category", "/manage/product").hasAuthority("MANAGER")
-				.antMatchers("/retail/**").hasAnyAuthority("MANAGER","EMPLOYEE")
+				.antMatchers("/manage/employee/**", "/manage/all-retail/**", "/manage/category/**",
+						"/manage/product/**","/manage/customer/**")
+				.hasAuthority("MANAGER")
 				
-				.anyRequest().permitAll()
+				.antMatchers("/retail/**","/profile/**").hasAnyAuthority("MANAGER", "EMPLOYEE")
+				
+				.anyRequest().authenticated()
 
 				.and().formLogin().loginPage("/login/employee").usernameParameter("email").permitAll()
 				.defaultSuccessUrl("/").failureUrl("/login/employee")
@@ -78,7 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/static/**", "/webjars/**", "/admin/**");
+		web.ignoring().antMatchers("/webjars/**", "/admin/**", "/manage/employee/emailExist/**",
+				"/forgot_password/employee", "/api/customer/**");
 	}
 
 }

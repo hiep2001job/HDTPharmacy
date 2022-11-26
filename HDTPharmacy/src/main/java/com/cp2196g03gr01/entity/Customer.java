@@ -15,26 +15,26 @@ import lombok.Data;
 @Data
 @Table(name = "customer")
 public class Customer {
- @Id
- @GeneratedValue
- @Column(name = "customer_id")
- private Long id;
- 
- @NotBlank
- @Column(name = "customer_name",length = 100)
- private String name;
- 
- @Column(name = "customer_point")
- private int earnedPoint;
- 
- @Column(name = "customer_phone"  )
- private String phone;
- 
- @Column(name = "customer_address",length = 100)
- private String address;
- 
- @JsonIgnore
- @Column(name = "customer_password",length = 100)
- private String password;
- 
+	@Id
+	@GeneratedValue
+	@Column(name = "customer_id")
+	private Long id;
+
+	@NotBlank
+	@Column(name = "customer_name", length = 100)
+	private String name;
+
+	@Column(name = "customer_point")
+	private Long earnedPoint = 0L;
+
+	@Column(name = "customer_phone")
+	private String phone;
+
+	@Column(name = "customer_address", length = 100)
+	private String address;
+
+	@JsonIgnore
+	@Column(name = "customer_password", length = 100)
+	private String password;
+
 }

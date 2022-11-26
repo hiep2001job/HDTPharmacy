@@ -62,21 +62,27 @@
 				</div>
 
 				<div class="m-t-25">
-					<table id="data-table" class="table">
+					<table id="data-table" class="table table-hover">
 						<thead>
 							<tr>
 								<th>Sản phẩm</th>
 								<th>Giá bán</th>
+								<th>Tồn kho</th>
+								<th>Loại</th>
 								<th>Thao tác</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr th:each="item : ${productList}">
-								<td th:attr="data-id=${item.id}" class="view-detail"><img
-									th:if="${item.imagePrimary!=null}" width="100"
-									th:src="@{${item.getPrimaryPhotoPath()}}" />&nbsp;&nbsp;
-									[[${item.name}]]</td>
-								<td>[[${item.salePrice}]]</td>
+								<td th:attr="data-id=${item.id}" class="view-detail">
+								<img th:if="${item.imagePrimary!=null}" width="100"
+									th:src="@{'/api/blob/product-images/'+${item.imagePrimary}}" />&nbsp;&nbsp;
+									<span>[[${item.name}]]</span>									
+								</td>
+								<td>[[${#numbers.formatDecimal(item.salePrice, 0, 'WHITESPACE',0, 'POINT')}]] VND</td>
+								<td>[[${item.stock}]]</td>
+								<td>[[${item.category!=null?item.category.name:''}]]</td>
+
 								<td class=""><a
 									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit ">
 										<i class="anticon anticon-edit"></i>
@@ -91,6 +97,8 @@
 							<tr>
 								<th>Sản phẩm</th>
 								<th>Giá bán</th>
+								<th>Tồn kho</th>
+								<th>Loại</th>
 								<th>Thao tác</th>
 							</tr>
 						</tfoot>
@@ -311,10 +319,17 @@
 
 						<form id="updateProduct" th:method="post"
 							enctype="multipart/form-data" th:action="@{/manage/product}">
-							<input hidden name="id" />
+							<input hidden id="id" name="id" />
 							<div class="row">
 								<div id="col-left" class="col-6">
-									<input hidden name="currentPage" th:value="${currentPage}" />
+									<!-- Hidden information -->
+									<input name="currentPage" th:value="${currentPage}" hidden />
+									<input name="imagePrimary" id="oldImagePrimary" hidden /> 
+									<input name="image1" id="oldImage1" hidden /> 
+									<input name="image2" id="oldImage2" hidden /> 
+									<input name="image3" id="oldImage3" hidden /> 
+									<input name="image4" id="oldImage4" hidden />
+										
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Tên sản
 											phẩm: </label> <input type="text" name="name"
@@ -331,34 +346,34 @@
 											sản phẩm:</label>
 										<div class="input-image-primary text-center">
 											<img th:src="@{/admin/images/others/adobe-thumb.png}"
-												width="200" id="imgPrimary" class="img-thumbnail">
-											<input type="file" hidden accept="image/*" id="imagePrimary"
+												width="200" id="imgPrimary" class="img-thumbnail"> <input
+												type="file" hidden accept="image/*" id="imagePrimary"
 												name="primaryImage" class="image-input" />
 										</div>
 										<div class="input-image-orthers">
 											<div class="input-image text-center">
 												<img th:src="@{/admin/images/others/adobe-thumb.png}"
-													width="120" id="previewCreatePrimary" class="img-thumbnail">
-												<input type="file" hidden accept="image/*"
-													id="image1" name="imageFile1" class="image-input" />
+													width="120" id="img1" class="img-thumbnail"> <input
+													type="file" hidden accept="image/*" id="image1"
+													name="imageFile1" class="image-input" />
 											</div>
 											<div class="input-image text-center">
 												<img th:src="@{/admin/images/others/adobe-thumb.png}"
-													width="120" id="previewCreatePrimary" class="img-thumbnail">
-												<input type="file" hidden accept="image/*"
-													id="image2" name="imageFile2" class="image-input" />
+													width="120" id="img2" class="img-thumbnail"> <input
+													type="file" hidden accept="image/*" id="image2"
+													name="imageFile2" class="image-input" />
 											</div>
 											<div class="input-image text-center">
 												<img th:src="@{/admin/images/others/adobe-thumb.png}"
-													width="120" id="previewCreatePrimary" class="img-thumbnail">
-												<input type="file" hidden accept="image/*"
-													id="image3" name="imageFile3" class="image-input" />
+													width="120" id="img3" class="img-thumbnail"> <input
+													type="file" hidden accept="image/*" id="image3"
+													name="imageFile3" class="image-input" />
 											</div>
 											<div class="input-image text-center">
 												<img th:src="@{/admin/images/others/adobe-thumb.png}"
-													width="120" id="previewCreatePrimary" class="img-thumbnail">
-												<input type="file" hidden accept="image/*"
-													id="image4" name="imageFile4" class="image-input" />
+													width="120" id="img4" class="img-thumbnail"> <input
+													type="file" hidden accept="image/*" id="image4"
+													name="imageFile4" class="image-input" />
 											</div>
 										</div>
 									</div>
@@ -436,17 +451,20 @@
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Hàm
 											lượng: </label> <input type="text" name="concentration"
-											class="form-control" id="concentration" placeholder="Hàm lượng">
+											class="form-control" id="concentration"
+											placeholder="Hàm lượng">
 									</div>
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Cách
 											dùng: </label> <input type="text" name="absorbingWay"
-											class="form-control" id="absorbingWay" placeholder="Cách dùng">
+											class="form-control" id="absorbingWay"
+											placeholder="Cách dùng">
 									</div>
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Số đăng
 											ký: </label> <input type="text" name="regisNumber"
-											class="form-control" id="regisNumber" placeholder="Số đăng ký">
+											class="form-control" id="regisNumber"
+											placeholder="Số đăng ký">
 									</div>
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Gốc
@@ -456,17 +474,20 @@
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Nhà sản
 											xuất: </label> <input type="text" name="manufacturer"
-											class="form-control" id="manufacturer" placeholder="Nhà sản xuất">
+											class="form-control" id="manufacturer"
+											placeholder="Nhà sản xuất">
 									</div>
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Dược
 											chất: </label> <input type="text" name="medicineSubstance"
-											class="form-control" id="medicineSubstance" placeholder="Dược chất">
+											class="form-control" id="medicineSubstance"
+											placeholder="Dược chất">
 									</div>
 									<div class="form-group col-md-12">
 										<label class="font-weight-semibold" for="name">Dược
 											liệu: </label> <input type="text" name="medicinalHerbs"
-											class="form-control" id="medicinalHerbs" placeholder="Dược liệu">
+											class="form-control" id="medicinalHerbs"
+											placeholder="Dược liệu">
 									</div>
 									<div class="form-group d-flex align-items-center col-md-6 ">
 										<label class="font-weight-semibold mr-2   ">Hiển thị
@@ -487,8 +508,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-						<button type="submit" form="updateCategory"
-							class="btn btn-primary">Lưu</button>
+						<button type="submit" form="updateProduct" class="btn btn-primary">Lưu</button>
 					</div>
 				</div>
 			</div>
@@ -722,27 +742,43 @@
 							url : "[[@{/manage/product/}]]" + id,
 							success : function(data) {
 								
+								$("#updateProductModal #id").val(data.id);
 								$("#updateProductModal #name").val(data.name);
 								$("#updateProductModal #salePrice").val(data.salePrice);
-								$("#updateProductModal #category").val(data.category.name);
 								
-								if(data.imagePrimary)
-									$("#viewProductModal #imagePrimary").attr('src',"[[@{/product-images/}]]"+data.imagePrimary);
-								if(data.image1)
-									$("#updateProductModal #image1").attr('src',"[[@{/product-images/}]]"+data.image1);
-								if(data.image2)
-									$("#updateProductModal #image2").attr('src',"[[@{/product-images/}]]"+data.image2);
-								if(data.image3)
-									$("#updateProductModal #image3").attr('src',"[[@{/product-images/}]]"+data.image3);
-								if(data.image4)
-									$("#updateProductModal #image4").attr('src',"[[@{/product-images/}]]"+data.image4);
+								if(data.category!=null)
+								$("#updateProductModal #category").val(data.category.id).change();
+								
+								if(data.imagePrimary){
+									$("#updateProductModal #imgPrimary").attr('src',"[[@{/api/blob/product-images/}]]"+data.imagePrimary);		
+									$("#updateProductModal #oldImagePrimary").val(data.imagePrimary);
+								}									
+								if(data.image1){
+									$("#updateProductModal #img1").attr('src',"[[@{/api/blob/product-images/}]]"+data.image1);
+									$("#updateProductModal #oldImage1").val(data.image1);
+								}
+									
+								if(data.image2){
+									$("#updateProductModal #img2").attr('src',"[[@{/api/blob/product-images/}]]"+data.image2);
+									$("#updateProductModal #oldImage2").val(data.image2);
+								}
+									
+								if(data.image3){
+									$("#updateProductModal #img3").attr('src',"[[@{/api/blob/product-images/}]]"+data.image3);
+									$("#updateProductModal #oldImage3").val(data.image3);
+								}
+								
+								if(data.image2){
+									$("#updateProductModal #img4").attr('src',"[[@{/api/blob/product-images/}]]"+data.image4);
+									$("#updateProductModal #oldImage4").val(data.image4);
+								}
+									
 								$("#updateProductModal #stock").val(data.stock);
 								$("#updateProductModal #position").val(data.position);
 								$("#updateProductModal #rewardPoint").val(data.rewardPoint);
 								$("#updateProductModal #packgaging").val(data.packgaging);
-								$("#updateProductModal #weight").val(data.weight+' g');
-								$("#updateProductModal #salePrice").val(data.salePrice);
-								
+								$("#updateProductModal #weight").val(data.weight);
+								$("#updateProductModal #salePrice").val(data.salePrice);								
 								
 								$("#updateProductModal").modal('show');
 							}
@@ -758,23 +794,24 @@
 						
 						$("#viewProductModal #name").text(data.name);
 						$("#viewProductModal #salePrice").text(data.salePrice);
+						if(data.category)
 						$("#viewProductModal #category").text(data.category.name);
-						console.log(data.category.name);
+						refreshImageInView();
 						if(data.imagePrimary)
-							$("#viewProductModal #imagePrimary").attr('src',"[[@{/product-images/}]]"+data.imagePrimary);
+							$("#viewProductModal #imagePrimary").attr('src',"[[@{/api/blob/product-images/}]]"+data.imagePrimary);						
 						if(data.image1)
-							$("#viewProductModal #image1").attr('src',"[[@{/product-images/}]]"+data.image1);
+							$("#viewProductModal #image1").attr('src',"[[@{/api/blob/product-images/}]]"+data.image1);
 						if(data.image2)
-							$("#viewProductModal #image2").attr('src',"[[@{/product-images/}]]"+data.image2);
+							$("#viewProductModal #image2").attr('src',"[[@{/api/blob/product-images/}]]"+data.image2);
 						if(data.image3)
-							$("#viewProductModal #image3").attr('src',"[[@{/product-images/}]]"+data.image3);
+							$("#viewProductModal #image3").attr('src',"[[@{/api/blob/product-images/}]]"+data.image3);
 						if(data.image4)
-							$("#viewProductModal #image4").attr('src',"[[@{/product-images/}]]"+data.image4);
+							$("#viewProductModal #image4").attr('src',"[[@{/api/blob/product-images/}]]"+data.image4);
 						$("#viewProductModal #stock").text(data.stock);
 						$("#viewProductModal #position").text(data.position);
 						$("#viewProductModal #rewardPoint").text(data.rewardPoint);
 						$("#viewProductModal #packgaging").text(data.packgaging);
-						$("#viewProductModal #weight").text(data.weight+' g');
+						$("#viewProductModal #weight").text(data.weight??""+' g');
 						$("#viewProductModal #salePrice").text(data.salePrice);
 						
 						$("#viewProductModal").modal('show');
@@ -806,6 +843,15 @@
 				 const [file]=$(this)[0].files;				
 				 $(this).siblings(".img-thumbnail").attr('src',URL.createObjectURL(file)); 
 			});
+			/* Image refresh */
+			function refreshImageInView() {
+				let defaultImage="[[@{/admin/images/others/adobe-thumb.png}]]";
+				$("#viewProductModal #imagePrimary").attr('src',defaultImage);							
+				$("#viewProductModal #image1").attr('src',defaultImage);				
+				$("#viewProductModal #image2").attr('src',defaultImage);				
+				$("#viewProductModal #image3").attr('src',defaultImage);				
+				$("#viewProductModal #image4").attr('src',defaultImage);
+			}
 		</script>
 	</th:block>
 </body>

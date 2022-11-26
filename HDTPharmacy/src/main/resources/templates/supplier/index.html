@@ -44,7 +44,7 @@
 								<i class="prefix-icon anticon anticon-search"></i> <input
 									type="search" name="key" th:value="${key}"
 									onchange="this.form.submit()" class="form-control"
-									placeholder="Tìm kiếm"> 
+									placeholder="Tìm kiếm">
 							</div>
 						</form>
 					</div>
@@ -112,57 +112,41 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form id="createCategory" th:method="post"
-							enctype="multipart/form-data" th:action="@{/manage/category}">
+						<form id="createSupplier" th:method="post"
+							enctype="multipart/form-data" th:action="@{/manage/supplier}">
 							<input hidden name="currentPage" th:value="${currentPage}" />
 							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Tên
-									phân loại:</label> <input type="text" name="name" class="form-control"
-									id="categoryName" placeholder="Phân loại">
+								<label class="font-weight-semibold" for="categoryName">Nhà
+									cung cấp:</label> <input type="text" name="name" class="form-control"
+									id="supplierName" placeholder="Tên nhà cung cấp">
+							</div>
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Địa
+									chỉ:</label> <input type="text" name="address" class="form-control"
+									id="supplierAddress" placeholder="Địa chỉ">
+							</div>
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Email:</label>
+								<input type="text" name="email" class="form-control"
+									id="supplierEmail" placeholder="Email">
 							</div>
 							<div class="form-group">
 								<label class="font-weight-semibold" for="categoryName">Hình
 									đại diện:</label> <img th:src="@{/admin/images/others/adobe-thumb.png}"
 									width="150" id="previewCreate" class="img-thumbnail"> <input
 									type="file" hidden accept="image/*" id="createImg"
-									name="categoryImage" />
+									name="supplierImage" />
 							</div>
 
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Phân
-									loại cha:</label> <select class="filter-select" id="parentCategory"
-									name="parentCategory">
-									<option value="">-- Chọn phân loại cha --</option>
-									<th:block th:each="cat : ${parents}">
-										<option th:value="${cat.id}">[[${cat.name}]]</option>
-									</th:block>
 
-								</select>
 
-							</div>
-
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Level:</label>
-								<select class="custom-select" id="productCategory" name="level">
-									<option
-										th:each="level : ${T(com.cp2196g03gr01.common.CategoryLevelEnum).values()}"
-										th:value="${level}">[[${level.getValue()}]]</option>
-								</select>
-							</div>
-							<div class="form-group d-flex align-items-center col-md-6 ">
-								<div class="switch m-r-10">
-									<input type="checkbox" id="switch-1" name="showOnline">
-									<label for="switch-1"></label>
-								</div>
-								<label class="font-weight-semibold">Hiển thị online</label>
-							</div>
 
 						</form>
 
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-						<button type="submit" form="createCategory"
+						<button type="submit" form="createSupplier"
 							class="btn btn-primary">Lưu</button>
 					</div>
 				</div>

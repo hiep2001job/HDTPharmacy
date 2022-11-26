@@ -31,7 +31,7 @@ public class CustomerRepositoryTest {
 		Faker faker = new Faker();
 		Customer customer;
 		List<Customer> list = new ArrayList<Customer>();
-		int i = 20;
+		int i = 10;
 		while (i-- > 0) {
 			customer = new Customer();
 			String name = faker.name().fullName();

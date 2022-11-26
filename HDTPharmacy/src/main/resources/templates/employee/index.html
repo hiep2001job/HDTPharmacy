@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="layouts/adminLayout.html">
+<head>
+<meta charset="ISO-8859-1">
+<title layout:fragment="title">Quản lý nhân viên</title>
+
+<!-- Page style -->
+<th:block layout:fragment="pageStyle">
+	<link
+		th:href="@{/admin/vendors/datatables/dataTables.bootstrap.min.css}"
+		rel="stylesheet" />
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet"
+		href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+	<!-- page css -->
+	<link th:href="@{/admin/vendors/select2/select2.css}" rel="stylesheet">
+</th:block>
+
+</head>
+<body>
+
+	<div layout:fragment="content">
+
+		<div class="page-header">
+			<h2 class="header-title">Quản lí nhân viên</h2>
+			<div class="header-sub-title">
+				<nav class="breadcrumb breadcrumb-dash">
+					<a th:href="@{/manage/dashboard}" class="breadcrumb-item"> <i
+						class="anticon anticon-home m-r-5"></i>Quản lí
+					</a> <a class="breadcrumb-item" href="#">Nhân viên</a>
+				</nav>
+			</div>
+		</div>
+		<div class="card">
+
+			<div class="card-body">
+				<div class="row m-b-30">
+
+					<div class="col-lg-4">
+						<form th:action="@{/manage/employee}">
+							<div class="input-affix">
+								<i class="prefix-icon anticon anticon-search"></i> <input
+									type="search" name="key" th:value="${key}"
+									onchange="this.form.submit()" class="form-control"
+									placeholder="Tìm kiếm">
+							</div>
+						</form>
+					</div>
+
+					<div class="col-lg-8 text-right">
+						<button type="button" class="btn btn-primary" data-toggle="modal"
+							data-target="#createEmployeeModal">
+							<i class="anticon anticon-plus-circle m-r-5"></i> <span>Tạo
+								nhân viên</span>
+						</button>
+					</div>
+
+				</div>
+
+				<div class="m-t-25">
+					<table id="data-table" class="table">
+						<thead>
+							<tr>
+								<th>Nhân viên</th>
+								<th>Chức vụ</th>
+								<th>Email</th>
+								<th>Điện thoại</th>
+								<th>Địa chỉ</th>
+								<th>Trạng thái</th>
+								<th>Tùy chỉnh</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="item : ${employeeList}">
+								<td><img th:if="${item.image!=''}" width="100"
+									th:src="@{'/api/blob/user-images/'+${item.image}}" />&nbsp;&nbsp;
+									<img th:if="${item.image==''}" width="100"
+									th:src="@{/admin/images/avatars/thumb-6.jpg}" />&nbsp;&nbsp;
+									[[${item.userFullname}]]</td>
+								<td>[[${item.allRole}]]</td>
+								<td>[[${item.email}]]</td>
+								<td>[[${item.phone}]]</td>
+								<td>[[${item.address}]]</td>
+								<td>
+
+									<div class="switch m-r-10">
+										<input type="checkbox" disabled th:checked="${item.isEnable}"
+											th:attr="id=${'switch-'+item.id}" name="showOnline">
+										<label th:attr="for=${'switch-'+item.id}"></label>
+									</div>
+								</td>
+
+								<td class=""><a
+									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit">
+										<i class="anticon anticon-edit"></i>
+								</a> <input id="id" th:value="${item.id}" hidden /></td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Nhân viên</th>
+								<th>Chức vụ</th>
+								<th>Email</th>
+								<th>Điện thoại</th>
+								<th>Địa chỉ</th>
+								<th>Trạng thái</th>							
+								<th>Tùy chỉnh</th>
+							</tr>
+						</tfoot>
+					</table>
+					<nav th:replace="fragments/pagination_nav.html :: paginator"></nav>
+				</div>
+			</div>
+		</div>
+
+		<!--Create Category Modal -->
+		<div class="modal fade" id="createEmployeeModal">
+			<div
+				class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header d-flex">
+						<h5 class="modal-title" id="exampleModalCenterTitle">Tạo nhân
+							viên</h5>
+						<button type="button" class="close" data-dismiss="modal">
+							<i class="anticon anticon-close"></i>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form id="createCategory" th:method="post"
+							enctype="multipart/form-data" th:action="@{/manage/employee}">
+							<input hidden name="currentPage" th:value="${currentPage}" />
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Họ
+									tên:</label> <input type="text" name="userFullname"
+									class="form-control" id="employeeFullName" placeholder="Họ tên">
+							</div>
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Email:</label>
+								<input type="text" name="email" class="form-control"
+									id="employeeEmail" placeholder="Email">
+							</div>
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Số
+									điện thoại:</label> <input type="text" name="phone"
+									class="form-control" id="employeePhone"
+									placeholder="Điện thoại">
+							</div>
+							<div class="form-group">
+								<label class="font-weight-semibold" for="categoryName">Ảnh
+									đại diện:</label> <img th:src="@{/admin/images/others/adobe-thumb.png}"
+									width="200" id="previewImage1" class="img-thumbnail"> <input
+									type="file" hidden accept="image/*" id="image1"
+									name="employeeImage" class="image-input" />
+							</div>
+
+
+
+							<div class="form-group">
+								<label class="font-weight-semibold" for="productCategory">Level:</label>
+								<select class="custom-select" id="productCategory" name="level">
+									<option
+										th:each="level : ${T(com.cp2196g03gr01.common.RolesEnum).values()}"
+										th:if="${level!=T(com.cp2196g03gr01.common.RolesEnum).CUSTOMER}"
+										th:value="${level}">[[${level.getValue()}]]</option>
+								</select>
+							</div>
+							<div class="form-group d-flex align-items-center col-md-6 ">
+								<div class="switch m-r-10">
+									<input type="checkbox" id="switch-1" name="isEnable"> <label
+										for="switch-1"></label>
+								</div>
+								<label class="font-weight-semibold">Kích hoạt</label>
+							</div>
+
+						</form>
+
+					</div>
+					<div class="modal-footer d-flex justify-content-center">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+						<button type="submit" form="createCategory"
+							class="btn btn-primary ml-2">Lưu</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+	<!-- Page script -->
+	<th:block layout:fragment="pageScript">
+		<script th:src="@{/admin/vendors/datatables/jquery.dataTables.min.js}"></script>
+
+		<script
+			th:src="@{/admin/vendors/datatables/dataTables.bootstrap.min.js}"></script>
+
+		<script type="text/javascript"
+			th:src="@{/admin/vendors/jquery-validation/jquery.validate.min.js}"></script>
+
+
+		<!-- page js -->
+		<script th:src="@{/admin/vendors/select2/select2.min.js}"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+		<script>
+		
+			/* //Unique employee email validation
+			jQuery.validator.addMethod('valid_email', function (value) {
+				var result;
+				$.ajax({
+					type : 'GET',
+					url : "[[@{/manage/employee/emailExist/}]]" + value,
+					success : function(data) {
+						result=data;
+						alert(data);
+					}
+				});
+    			return result;
+  			}); */
+			
+			//Select 2
+			$('.filter-select').select2();
+			//Create form validation
+			$("#createCategory").validate({
+				ignore : ':hidden:not(:checkbox), .ignore',
+				errorElement : 'label',
+				errorClass : 'is-invalid',
+				validClass : 'is-valid',
+				rules : {
+					name : {
+						required : true,
+						valid_email : true
+					}, 
+					email: { required: true, email: true, minlength: 6, remote: "/manage/employee/emailExist" }
+				},
+				messages : {
+					name : {
+						required : 'Trường không được bỏ trống',
+					},
+					email : {
+						required : 'Trường không được bỏ trống',
+						remote : 'Email này đã tồn tại !',
+						email: 'Vui lòng nhập email hợp lệ'
+					}
+				}
+			});
+			//Fill data for update form
+			$("table .edit").on(
+					"click",
+					function() {
+						var id = $(this).parent().find("#id").val();
+						$.ajax({
+							type : 'GET',
+							url : "[[@{/manage/category/}]]" + id,
+							success : function(data) {
+								$("#updateCategoryModal #id").val(data.id);
+								$("#updateCategoryModal #categoryName").val(
+										data.name);
+								if (data.parentCategory != null) {
+									$("#updateCategoryModal #parent").val(
+											data.parentCategory.id).change();
+								}
+								if(data.image!=null){
+									$("#updateCategoryModal #previewUpdate")
+									.attr('src','[[@{/category-images/}]]'+data.image);
+									$("#updateCategoryModal #oldImage").val(data.image);
+								}else{
+									$("#updateCategoryModal #previewUpdate")
+									.attr('src','[[@{/admin/images/others/adobe-thumb.png}]]');
+								}
+								if (data.showOnline != null) {
+									$("#updateCategoryModal #showOnline").attr('checked',data.showOnline);
+								}else{
+									$("#updateCategoryModal #showOnline").attr('checked',false);
+								}
+								$("#updateCategoryModal #level")
+										.val(data.level).change();
+								$("#updateCategoryModal").modal('show');
+							}
+						});
+					});
+			
+			/* Delete confirmation script */
+			$('#confirm-delete').on(
+					'show.bs.modal',
+					function(e) {
+						$(this).find('#confirm-header').text(
+								"Xác nhận xóa \""
+										+ $(e.relatedTarget).data('label')
+										+ "\"");
+						$(this).find('.btn-ok').attr(
+								'href',
+								'/manage/category/delete/'
+										+ $(e.relatedTarget).attr('value')
+										+ "?page=[[${currentPage}]]");
+					});
+			
+			/* Image Input*/
+			$('.img-thumbnail').on('click',function(){
+				$(this).siblings("input[type='file']").trigger('click');
+			});
+			$('.image-input').on('change',function(){
+				 const [file]=$(this)[0].files;				
+				 $(this).siblings(".img-thumbnail").attr('src',URL.createObjectURL(file)); 
+			});
+		</script>
+	</th:block>
+</body>
+</html>

@@ -1,5 +1,6 @@
  package com.cp2196g03gr01.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "roles")
-public class Role {
+public class Role implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "role_id")

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -37,19 +38,21 @@ public class RetailInvoice {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private String note="";
+	
+	private Boolean isDeleted=false;
+	
+	private String deleteReason="";
 
-	private String description;
-
-	private String note;
-
-	@Fetch(FetchMode.JOIN)
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "customer_id", nullable = true)
 	private Customer customer;
 	
-	@Fetch(FetchMode.JOIN)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = true)
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@Temporal(TemporalType.DATE)
@@ -88,6 +91,12 @@ public class RetailInvoice {
 		return amount;
 	}
 
+	@Transient
+	public Long getRewardPoint() {
+		
+		return getTotal()/10000;
+	}
+	
 	public Long getTotal() {
 		Long total = 0L;
 		int size = items.size();
@@ -102,5 +111,5 @@ public class RetailInvoice {
 	public void addItemInvoice(RetailInvoiceDetail item) {
 		this.items.add(item);
 	}
-
+    
 }

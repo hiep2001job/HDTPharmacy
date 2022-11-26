@@ -60,7 +60,7 @@
 				</div>
 
 				<div class="m-t-25">
-					<table id="data-table" class="table">
+					<table id="data-table" class="table table-hover">
 						<thead>
 							<tr>
 								<th>Mã đơn hàng</th>
@@ -77,15 +77,20 @@
 								<td>#[[${item.id}]]</td>
 								<td>[[${item.getAmount()}]]</td>
 								<td>[[${item.total}]]</td>
-								<td>[[${item.user.name}]]</td>
-								<td>[[${item.createAt}]]</td>								
-								<td>[[${item.customer!=null?item.customer.name+' '+item.customer.phone:'Không có thông tin khách hàng'}]]</td>
+								<td>[[${item.user.userFullname}]]</td>
+								<td>[[${item.createAt}]]</td>
+								<td>[[${item.customer!=null?item.customer.name+'
+									'+item.customer.phone:'Không có thông tin khách hàng'}]]</td>
 								<td class=""><a
+								th:href="@{'/retail/invoice/'+${item.id}+'/detail'}"
+									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right cursor-pointer">
+										<i class="anticon anticon-info"></i>
+								</a><a
 									class="btn btn-icon btn-hover btn-sm btn-rounded pull-right edit">
 										<i class="anticon anticon-edit"></i>
-								</a> <a th:value="${item.id}"
-									data-toggle="modal" data-target="#confirm-delete"
-									class="btn btn-icon btn-hover btn-sm btn-rounded"> <i
+								</a> <a th:value="${item.id}" data-toggle="modal"
+									data-target="#confirm-delete"
+									class="btn btn-icon btn-hover btn-sm btn-rounded cursor-pointer"> <i
 										class="anticon anticon-delete"></i>
 								</a> <input id="id" th:value="${item.id}" hidden /></td>
 							</tr>
@@ -107,163 +112,6 @@
 			</div>
 		</div>
 
-		<!--Create Category Modal -->
-		
-		<!-- <div class="modal fade" id="createCategoryModal">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Tạo phân
-							loại</h5>
-						<button type="button" class="close" data-dismiss="modal">
-							<i class="anticon anticon-close"></i>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form id="createCategory" th:method="post"
-							enctype="multipart/form-data" th:action="@{/manage/category}">
-							<input hidden name="currentPage" th:value="${currentPage}" />
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Tên
-									phân loại:</label> <input type="text" name="name" class="form-control"
-									id="categoryName" placeholder="Phân loại">
-							</div>
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Hình
-									đại diện:</label> <img th:src="@{/admin/images/others/adobe-thumb.png}"
-									width="150" id="previewCreate" class="img-thumbnail"> <input
-									type="file" hidden accept="image/*" id="createImg"
-									name="categoryImage" />
-							</div>
-
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Phân
-									loại cha:</label> <select class="filter-select" id="parentCategory"
-									name="parentCategory">
-									<option value="">-- Chọn phân loại cha --</option>
-									<th:block th:each="cat : ${parents}">
-										<option th:value="${cat.id}">[[${cat.name}]]</option>
-									</th:block>
-
-								</select>
-
-							</div>
-
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Level:</label>
-								<select class="custom-select" id="productCategory" name="level">
-									<option
-										th:each="level : ${T(com.cp2196g03gr01.common.CategoryLevelEnum).values()}"
-										th:value="${level}">[[${level.getValue()}]]</option>
-								</select>
-							</div>
-							<div class="form-group d-flex align-items-center col-md-6 ">
-								<div class="switch m-r-10">
-									<input type="checkbox" id="switch-1" name="showOnline">
-									<label for="switch-1"></label>
-								</div>
-								<label class="font-weight-semibold">Hiển thị online</label>
-							</div>
-
-						</form>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-						<button type="submit" form="createCategory"
-							class="btn btn-primary">Lưu</button>
-					</div>
-				</div>
-			</div>
-		</div> -->
-		
-		<!--Update Category Modal -->
-		<!-- <div class="modal fade" id="updateCategoryModal">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalCenterTitle">Chỉnh
-							sửa phân loại</h5>
-						<button type="button" class="close" data-dismiss="modal">
-							<i class="anticon anticon-close"></i>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form id="updateCategory" th:method="POST"
-							enctype="multipart/form-data"
-							th:action="@{/manage/category/update}">
-							<input type='hidden' name="id" id="id" /> <input hidden
-								name="currentPage" th:value="${currentPage}" />
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Tên
-									phân loại:</label> <input type="text" class="form-control"
-									id="categoryName" name="name" placeholder="Phân loại">
-							</div>
-							<div class="form-group">
-								<label class="font-weight-semibold" for="categoryName">Hình
-									đại diện:</label> <img th:src="@{/admin/images/others/adobe-thumb.png}"
-									width="150" id="previewUpdate" class="img-thumbnail"> <input
-									type="file" hidden accept="image/*" id="updateImg"
-									name="categoryImage" /> <input hidden id="oldImage"
-									name="image" />
-							</div>
-							<div class="form-group">
-								<label class="font-weight-semibold" for="parent">Phân
-									loại cha:</label> <select class="filter-select" name="parentCategory"
-									id="parent">
-									<option value="">-- Chọn phân loại cha --</option>
-
-									<th:block th:each="cat : ${parents}">
-										<option th:value="${cat.id}">[[${cat.name}]]</option>
-									</th:block>
-
-								</select>
-							</div>
-
-							<div class="form-group">
-								<label class="font-weight-semibold" for="productCategory">Level:</label>
-								<select class="custom-select" id="level" name="level">
-
-									<option
-										th:each="level : ${T(com.cp2196g03gr01.common.CategoryLevelEnum).values()}"
-										th:value="${level}">[[${level.getValue()}]]</option>
-								</select>
-							</div>
-							<div class="form-group d-flex align-items-center col-md-6 ">
-								<div class="switch m-r-10">
-									<input type="checkbox" id="showOnline" name="showOnline">
-									<label for="showOnline"></label>
-								</div>
-								<label class="font-weight-semibold">Hiển thị online</label>
-							</div>
-
-						</form>
-
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-						<button type="submit" form="updateCategory"
-							class="btn btn-primary">Lưu</button>
-					</div>
-				</div>
-			</div>
-		</div>
- -->
-		<!-- Confirm delete modal -->
-		<!-- <div class="modal fade" id="confirm-delete" tabindex="-1"
-			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header" id="confirm-header">Xác nhận xóa</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Hủy</button>
-						<a class="btn btn-danger btn-ok">Xóa</a>
-					</div>
-				</div>
-			</div>
-		</div>
- -->
 	</div>
 
 	<!-- Page script -->

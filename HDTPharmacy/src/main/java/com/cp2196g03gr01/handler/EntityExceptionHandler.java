@@ -12,6 +12,8 @@ import org.springframework.web.    bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class EntityExceptionHandler {
+	
+	
 	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public Map<String, String> handleValidationExceptions(
